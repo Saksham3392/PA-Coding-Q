@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <title>Java Practice Compiler & Test Bench</title>
+  <meta name="description" content="Interactive Java Practice Compiler and Test Bench with test cases, hints, and live execution." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon" href="favicon.svg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CodeMirror CSS & Dracula Theme -->
+  <link rel="stylesheet" href="codemirror.min.css?v=2" />
+  <link rel="stylesheet" href="dracula.min.css?v=2" />
+  <link rel="stylesheet" href="show-hint.min.css?v=2" />
+  
+  <link rel="stylesheet" href="style.css?v=38" />
+</head>
+<body class="theme-light">
+  <div class="desk-shell">
+    <div class="desk-container">
+      
+      <!-- Left Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m18 16 4-4-4-4"></path>
+              <path d="m6 8-4 4 4 4"></path>
+              <path d="m14.5 4-5 16"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="sidebar-title">practice desk</p>
+            <p class="sidebar-sub" id="sidebar-sub-count">6 Java challenges</p>
+          </div>
+        </div>
+
+        <!-- Sidebar Search & Quick Filter Controls -->
+        <div class="sidebar-search-box">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="sidebar-search-input" placeholder="Search challenges... (/)" spellcheck="false" autocomplete="off" />
+          <button id="sidebar-search-clear" class="search-clear-btn hidden" title="Clear search">✕</button>
+        </div>
+
+        <!-- Filter Tags Pill Carousel -->
+        <div class="sidebar-filter-pills">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="starred">★ Starred</button>
+          <button class="filter-pill" data-filter="solved">✓ Solved</button>
+          <button class="filter-pill" data-filter="unsolved">○ Unsolved</button>
+        </div>
+
+        <!-- Sidebar Progress Track -->
+        <div class="sidebar-progress-card">
+          <div class="progress-info-row">
+            <span class="progress-label">Solved Progress</span>
+            <span id="sidebar-progress-ratio" class="progress-val">0 / 6</span>
+          </div>
+          <div class="progress-track">
+            <div id="sidebar-progress-bar" class="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="sidebar-section-wrap">
+          <div class="sidebar-section-header-row">
+            <p class="sidebar-label">Curriculum Bank</p>
+            <span id="sidebar-match-count" class="sidebar-match-badge">6</span>
+          </div>
+          <div id="problem-list-nav" class="sidebar-nav-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Top App Bar -->
+        <header class="top-header">
+          <div class="header-left">
+            <div class="mobile-logo">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m18 16 4-4-4-4"></path>
+                <path d="m6 8-4 4 4 4"></path>
+                <path d="m14.5 4-5 16"></path>
+              </svg>
+            </div>
+            <span class="header-breadcrumb">Java Practice Lab / <span class="breadcrumb-highlight" id="header-curr-title">Active Question</span></span>
+          </div>
+
+          <div class="header-right">
+            <!-- Quick Previous & Next Question Navigation -->
+            <div class="header-quick-nav">
+              <button id="btn-prev-problem" class="quick-nav-btn" title="Previous Question (Alt+Left)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Prev</span>
+              </button>
+              <button id="btn-next-problem" class="quick-nav-btn" title="Next Question (Alt+Right)">
+                <span>Next</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button id="btn-theme-toggle" class="theme-toggle-btn" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+              <svg id="icon-theme-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </button>
+
+            <!-- Compiler Status Indicator -->
+            <div id="compiler-status-badge" class="status-badge" title="Java Compiler Readiness">
+              <span id="compiler-status-dot" class="status-dot animate-pulse"></span>
+              <span id="compiler-status-text">Checking compiler...</span>
+            </div>
+
+            <!-- Reset Progress Button -->
+            <button id="btn-reset-progress" class="reset-progress-btn" title="Reset all solved questions progress">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Main Workspace Area -->
+        <div class="workspace-wrap">
+          
+          <!-- Hero Title Section -->
+          <div class="problem-hero">
+            <div class="hero-left">
+              <div class="hero-tag">
+                <span class="hero-tag-dot"></span>
+                <span id="hero-tag-text">Focused exercise 01</span>
+              </div>
+              <h1 class="hero-title">Sum of all the elements of an Array<span class="hero-period">.</span></h1>
+              <p class="hero-subtitle">Array Summation & Element Traversal</p>
+            </div>
+            
+            <div class="hero-meta">
+              <div class="compile-target-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Compile target</span>
+                <span class="target-file">Main.java</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two-column workspace layout -->
+          <div class="workspace-grid">
+            
+            <!-- Left Column: Problem Brief & Guidance -->
+            <div class="left-col">
+              
+              <!-- Problem Statement Card -->
+              <section class="desk-card" id="card-problem-brief">
+                <div class="brief-header">
+                  <div>
+                    <p class="brief-eyebrow">The brief</p>
+                    <h2 class="brief-title">Problem Specification</h2>
+                  </div>
+                  <div class="brief-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="8" y1="6" x2="21" y2="6"></line>
+                      <line x1="8" y1="12" x2="21" y2="12"></line>
+                      <line x1="8" y1="18" x2="21" y2="18"></line>
+                      <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                      <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                      <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="problem-statement-body">
+                  <p>Loading problem description...</p>
+                </div>
+
+                <!-- Input / Output Rules -->
+                <div class="io-rules-list">
+                  <div class="io-rule-item">
+                    <div class="step-badge">1</div>
+                    <div class="step-desc" id="rule-input-format">
+                      <strong>Input Format:</strong> Read from standard input.
+                    </div>
+                  </div>
+                  <div class="io-rule-item">
+                    <div class="step-badge">2</div>
+                    <div class="step-desc" id="rule-output-format">
+                      <strong>Output Format:</strong> Format your printed lines exactly as requested.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- "A nudge, not the answer" Hints Card (Above Sample Test Cases) -->
+                <div class="hint-card" id="card-thinking-tip" style="margin-top: 20px;">
+                  <div class="hint-header">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hint-icon">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div>
+                      <p class="hint-title">A nudge, not the answer</p>
+                      <p class="hint-subtitle">Think through the logic, structure, and edge cases before checking the hints.</p>
+                    </div>
+                  </div>
+
+                  <div id="hints-stepper-container" class="hints-stepper">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Structured Interactive Sample Cases Showcase -->
+                <div class="samples-showcase-section">
+                  <div class="samples-showcase-header">
+                    <div class="samples-header-left">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                      </svg>
+                      <span>Sample Test Cases</span>
+                    </div>
+                    <span id="sample-cases-count-badge" class="sample-count-badge">2 Samples</span>
+                  </div>
+                  <div id="sample-cases-container" class="sample-cases-container">
+                    <!-- Populated dynamically by JS -->
+                  </div>
+                </div>
+              </section>
+
+              <!-- Solution Reveal Card (Optional / Learn) -->
+              <div class="solution-reveal-wrap">
+                <button id="btn-toggle-solution" class="btn-secondary-link" type="button" onclick="toggleSolutionVisibility()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Show Full Solution & Explanation</span>
+                </button>
+
+                <div id="solution-container" class="solution-container hidden">
+                  <div class="solution-inner">
+                    <div class="solution-head">
+                      <span class="solution-title">Reference Java Solution</span>
+                      <span id="solution-badge-text" class="solution-badge">Core Java</span>
+                    </div>
+                    <pre class="solution-code"><code id="solution-code-block">// Solution code here</code></pre>
+                    <button id="btn-load-solution" class="btn-load-solution" type="button" onclick="loadActiveSolution()">
+                      Load this solution into editor
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Code Editor & Test Bench -->
+            <div class="right-col">
+              
+              <!-- Java Editor Section with Colorful CodeMirror Editor -->
+              <section class="editor-section" id="card-java-editor">
+                <div class="editor-topbar">
+                  <div class="editor-left-meta">
+                    <div class="window-dots" aria-hidden="true">
+                      <span class="dot dot-red"></span>
+                      <span class="dot dot-yellow"></span>
+                      <span class="dot dot-green"></span>
+                    </div>
+                    <span class="file-name">Main.java</span>
+                  </div>
+
+                  <div class="editor-actions">
+                    <!-- Format / Beautify Code Button -->
+                    <button id="btn-format-code" class="editor-btn" type="button" title="Auto Format / Indent Java Code (Alt+F)">
+                      <svg id="icon-format" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                      </svg>
+                      <span id="format-btn-text">Format</span>
+                    </button>
+
+                    <button id="btn-copy-code" class="editor-btn" type="button" title="Copy code to clipboard">
+                      <svg id="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                      <span id="copy-btn-text">Copy</span>
+                    </button>
+
+                    <button id="btn-reset-code" class="editor-btn" type="button" title="Reset to starter boilerplate">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                      </svg>
+                      <span>Reset</span>
+                    </button>
+
+                    <!-- Solution Tab with Live Code Preview on Hover & Click to Paste -->
+                    <div class="solution-popover-wrap">
+                      <button id="btn-solution-popover" class="editor-btn solution-btn" type="button" onclick="loadActiveSolution()" title="Hover to view solution · Click to paste into editor">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <line x1="12" y1="16" x2="12" y2="12"></line>
+                          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Solution</span>
+                      </button>
+                      <div id="solution-hover-card" class="solution-hover-dropdown" onclick="loadActiveSolution()">
+                        <div class="sol-card-header">
+                          <div class="sol-card-badge">
+                            <span class="sol-badge-dot"></span>
+                            <span>Reference Java 21 Code</span>
+                          </div>
+                          <span class="sol-click-hint">Click button to paste into editor ↵</span>
+                        </div>
+                        <pre id="solution-preview-code" class="solution-preview-code"><code>// Hover preview loading...</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Code Editor Area -->
+                <div class="editor-body" id="editor-body">
+                  <textarea id="code-editor" class="code-textarea" spellcheck="false" placeholder="Write your Java code here..."></textarea>
+                </div>
+
+                <!-- Editor Bottom Bar -->
+                <div class="editor-bottombar">
+                  <div class="shortcut-tip">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                      <path d="M6 8h.001"></path>
+                      <path d="M10 8h.001"></path>
+                      <path d="M14 8h.001"></path>
+                      <path d="M18 8h.001"></path>
+                      <path d="M8 12h.001"></path>
+                      <path d="M12 12h.001"></path>
+                      <path d="M16 12h.001"></path>
+                      <path d="M7 16h10"></path>
+                    </svg>
+                    <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</span>
+                  </div>
+
+                  <div class="run-buttons-group">
+                    <button id="btn-run-tests" class="btn-run-primary" type="button">
+                      <svg id="icon-run" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span id="run-btn-spinner" class="spinner hidden"></span>
+                      <span id="run-btn-text">Run all tests</span>
+                    </button>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Run Status Summary Banner with Execution Benchmark Badge -->
+              <div id="status-summary-container" class="status-summary-wrap">
+                <div class="summary-card empty" id="summary-card">
+                  <div class="summary-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                  <div class="summary-text-box">
+                    <div class="summary-title-row">
+                      <p class="summary-title" id="summary-title">Your test bench is ready</p>
+                      <div id="exec-benchmark-badge" class="exec-benchmark-badge hidden">
+                        <span class="benchmark-icon">⚡</span>
+                        <span id="benchmark-text">42ms · Fast</span>
+                      </div>
+                    </div>
+                    <p class="summary-subtitle" id="summary-subtitle">Write your logic in the editor and click 'Run all tests'.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Test Bench Section -->
+              <section class="testbench-card" id="card-test-bench">
+                <div class="testbench-header">
+                  <div>
+                    <p class="testbench-eyebrow">Test bench</p>
+                    <h2 class="testbench-title" id="testbench-heading">All test cases.</h2>
+                  </div>
+
+                  <!-- Test Bench Tabs -->
+                  <div class="testbench-tabs">
+                    <button class="tab-btn active" data-tab="sample" id="tab-sample-count">Sample Cases</button>
+                    <button class="tab-btn" data-tab="edge" id="tab-edge-count">Edge Cases</button>
+                    <button class="tab-btn" data-tab="custom">Custom Runner</button>
+                    <button class="tab-btn" data-tab="logs">Compiler Logs</button>
+                  </div>
+                </div>
+
+                <!-- Tab 1: Sample Test Cases -->
+                <div id="tab-content-sample" class="tab-pane active">
+                  <div class="testcase-table-wrap">
+                    <div class="testcase-table-header">
+                      <span>Input</span>
+                      <span>Expected</span>
+                      <span style="text-align: right;">Status</span>
+                    </div>
+
+                    <div id="sample-testcase-list" class="testcase-list">
+                      <!-- Rendered by JS -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab 2: Edge Cases -->
+                <div id="tab-content-edge" class="tab-pane">
+                  <div class="testcase-table-wrap">
+                    <div class="testcase-table-header">
+                      <span>Input</span>
+                      <span>Expected</span>
+                      <span style="text-align: right;">Status</span>
+                    </div>
+
+                    <div id="edge-testcase-list" class="testcase-list">
+                      <!-- Rendered by JS -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab 3: Custom Input Runner -->
+                <div id="tab-content-custom" class="tab-pane">
+                  <div class="custom-runner-wrap">
+                    <label for="custom-input-box" class="custom-runner-label">Enter custom input (multi-line supported):</label>
+                    <div class="custom-input-row">
+                      <textarea id="custom-input-box" class="custom-input-box" rows="3" placeholder="Enter input here..."></textarea>
+                      <button id="btn-run-custom" class="btn-custom-run" type="button">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>Run Custom</span>
+                      </button>
+                    </div>
+
+                    <div id="custom-result-card" class="custom-result-card hidden">
+                      <div class="custom-result-header">
+                        <span class="custom-res-label">Execution Result</span>
+                        <span id="custom-res-time" class="custom-res-time"></span>
+                      </div>
+                      <div class="custom-result-grid">
+                        <div class="custom-io-col">
+                          <p class="custom-col-title">Standard Output</p>
+                          <pre id="custom-res-stdout" class="custom-col-pre"></pre>
+                        </div>
+                        <div class="custom-io-col">
+                          <p class="custom-col-title">Status</p>
+                          <pre id="custom-res-expected" class="custom-col-pre"></pre>
+                        </div>
+                      </div>
+                      <div id="custom-res-status-banner" class="custom-status-banner"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab 4: Compiler / Runtime Logs -->
+                <div id="tab-content-logs" class="tab-pane">
+                  <div class="logs-pane-wrap">
+                    <div class="logs-pane-head">
+                      <span>Console / Diagnostic Output</span>
+                      <button id="btn-clear-logs" class="btn-clear-logs" type="button">Clear</button>
+                    </div>
+                    <pre id="compiler-logs-content" class="compiler-logs-box">Ready. Click 'Run all tests' to compile and execute.</pre>
+                  </div>
+                </div>
+
+                <!-- Granular Failure Diff Viewer -->
+                <div id="diff-details-section" class="diff-details-wrap hidden">
+                  <div class="diff-header">
+                    <span class="diff-title">Detailed Output Comparison</span>
+                  </div>
+                  <div id="diff-details-list" class="diff-list">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+              </section>
+
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Confetti Canvas for 100% test pass celebration -->
+  <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div id="shortcuts-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="M6 8h.001"></path>
+            <path d="M10 8h.001"></path>
+            <path d="M14 8h.001"></path>
+            <path d="M18 8h.001"></path>
+            <path d="M8 12h.001"></path>
+            <path d="M12 12h.001"></path>
+            <path d="M16 12h.001"></path>
+            <path d="M7 16h10"></path>
+          </svg>
+          <span class="modal-title">Keyboard Shortcuts</span>
+        </div>
+        <button id="btn-close-modal" class="modal-close-btn" title="Close (Esc)">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="shortcut-item"><span class="shortcut-desc">Run all test cases</span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Toggle Reference Solution</span><kbd>Ctrl</kbd> + <kbd>.</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Toggle comment / uncomment</span><kbd>Ctrl</kbd> + <kbd>/</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Trigger autocomplete hints</span><kbd>Ctrl</kbd> + <kbd>Space</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Next question</span><kbd>Alt</kbd> + <kbd>→</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Previous question</span><kbd>Alt</kbd> + <kbd>←</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Focus problem search</span><kbd>/</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Toggle light / dark theme</span><kbd>Alt</kbd> + <kbd>T</kbd></div>
+        <div class="shortcut-item"><span class="shortcut-desc">Show / close shortcuts</span><kbd>?</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CodeMirror Scripts -->
+  <script src="codemirror.min.js?v=2"></script>
+  <script src="clike.min.js?v=2"></script>
+  <script src="closebrackets.min.js?v=2"></script>
+  <script src="matchbrackets.min.js?v=2"></script>
+  <script src="show-hint.min.js?v=2"></script>
+  <script src="anyword-hint.min.js?v=2"></script>
+
+  <!-- Questions Bank -->
+  <script src="questions.js?v=15"></script>
+
+  <!-- Application Logic -->
+  <script src="app.js?v=182"></script>
+</body>
+</html>
