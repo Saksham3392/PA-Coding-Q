@@ -1,6 +1,6 @@
 # ☕ Java Practice Compiler — String Processing Lab (49 Qs)
 
-**Live Web App:** https://javaprogrammingq.onrender.com
+**Live Web App:** https://pa-coding-q.onrender.com
 
 A production-grade, browser-based Java execution workbench built to bridge the gap between concept and code. It provides an automated, zero-setup test runner designed specifically for mastering complex string manipulation, ASCII parsing, regex patterns, frequency arrays, and competitive programming edge cases.
 
