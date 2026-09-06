@@ -11,7 +11,7 @@ A production-grade, browser-based Java execution workbench built to bridge the g
 Run the following commands in Command Prompt (CMD):
 
 ```cmd
-cd /d "c:\Users\Asus\Downloads\CSE AI 5th Sem\PA\PA Q" && start http://localhost:5050 && python server.py
+cd /d "c:\Users\Asus\Downloads\CSE AI 5th Sem\PA\PA Q" && start http://localhost:4060 && python server.py
 ```
 
 
