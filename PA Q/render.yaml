@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: java-practice-lab
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    healthCheckPath: /api/check
