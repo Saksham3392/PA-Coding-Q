@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://javaprogrammingq.onrender.com/api/:match*"
+    }
+  ]
+}
