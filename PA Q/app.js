@@ -2438,15 +2438,79 @@ function buildModelForProblem(prob) {
     };
   }
 
-  // 11. Dynamic Programming
-  if (cat.includes("dynamic") || cat.includes("dp")) {
+  // 11. Dynamic Programming (2D Table & Dependency Visualizer)
+  if (cat.includes("dynamic") || cat.includes("dp") || title.includes("knapsack") || title.includes("subsequence") || title.includes("coin change")) {
+    if (id === "q116_0_1_knapsack_problem" || title.includes("0-1 knapsack") || title.includes("knapsack")) {
+      return {
+        type: "dp",
+        title: "Step-by-Step 0/1 Knapsack DP Table Visualizer",
+        badge: "0/1 Knapsack 2D DP",
+        modes: [
+          { id: "knapsack_01", label: "0/1 Knapsack: dp[i][w] = max(dp[i-1][w], val + dp[i-1][w-wt])" },
+          { id: "lcs_2d", label: "Longest Common Subsequence (LCS): Match vs Mismatch Lookups" },
+          { id: "coin_change", label: "Coin Change: Minimum Coins to make Target Amount" },
+        ],
+      };
+    }
+    if (id === "q113_longest_common_subsequence_lcs" || title.includes("longest common subsequence") || title.includes("lcs")) {
+      return {
+        type: "dp",
+        title: "Step-by-Step Longest Common Subsequence (LCS) DP Grid Visualizer",
+        badge: "LCS 2D Table",
+        modes: [
+          { id: "lcs_2d", label: "Longest Common Subsequence: Match (Diagonal + 1) vs Mismatch (max)" },
+          { id: "knapsack_01", label: "0/1 Knapsack 2D Tabulation" },
+          { id: "coin_change", label: "Coin Change: Minimum Coins" },
+        ],
+      };
+    }
+    if (id === "q114_the_subset_sum_problem" || title.includes("subset sum")) {
+      return {
+        type: "dp",
+        title: "Step-by-Step Subset Sum Boolean DP Table Visualizer",
+        badge: "Subset Sum 2D DP",
+        modes: [
+          { id: "subset_sum", label: "Subset Sum: dp[i][j] = dp[i-1][j] || dp[i-1][j - arr[i-1]]" },
+          { id: "knapsack_01", label: "0/1 Knapsack 2D Tabulation" },
+          { id: "coin_change", label: "Coin Change (Fewest Coins Target)" },
+        ],
+      };
+    }
+    if (id === "q112_minimum_cost_path_to_last_element_of_matrix" || title.includes("minimum cost path") || title.includes("cost path")) {
+      return {
+        type: "dp",
+        title: "Step-by-Step Minimum Cost Path Grid DP Visualizer",
+        badge: "Grid DP (3-Way Min)",
+        modes: [
+          { id: "min_cost_path", label: "Min Cost Path: dp[i][j] = cost[i][j] + min(Top, Left, Diag)" },
+          { id: "knapsack_01", label: "0/1 Knapsack 2D Tabulation" },
+          { id: "lcs_2d", label: "Longest Common Subsequence (LCS)" },
+        ],
+      };
+    }
+    if (id === "q111_count_number_of_ways_to_cover_a_distance" || title.includes("cover a distance")) {
+      return {
+        type: "dp",
+        title: "Step-by-Step Cover Distance 1D DP Tabulation Visualizer",
+        badge: "1D DP Tribonacci",
+        modes: [
+          { id: "cover_distance", label: "Ways to Cover Distance: dp[i] = dp[i-1] + dp[i-2] + dp[i-3]" },
+          { id: "knapsack_01", label: "0/1 Knapsack 2D Table" },
+          { id: "lcs_2d", label: "Longest Common Subsequence (LCS)" },
+        ],
+      };
+    }
     return {
       type: "dp",
-      title: "Step-by-Step Dynamic Programming Table Visualizer",
+      title: "Step-by-Step Dynamic Programming 2D Table & Dependency Visualizer",
       badge: "DP Tabulation",
       modes: [
+        { id: "knapsack_01", label: "0/1 Knapsack: Exclude dp[i-1][w] vs Include val + dp[i-1][w-wt]" },
+        { id: "lcs_2d", label: "Longest Common Subsequence (LCS): Match vs Mismatch" },
+        { id: "coin_change", label: "Coin Change: Minimum Coins to make Target Amount" },
+        { id: "subset_sum", label: "Subset Sum: Boolean Decision Matrix" },
+        { id: "min_cost_path", label: "Min Cost Path in Matrix: 3-Way Lookups" },
         { id: "cover_distance", label: "1D DP Tabulation: Ways to Cover Distance" },
-        { id: "fib_memo", label: "Overlapping Subproblems: State Re-use" },
       ],
     };
   }
@@ -4188,12 +4252,737 @@ function computeVisualizerSteps(structure, mode) {
     ];
   }
 
-  // 10. Dynamic Programming
+  // 10. Dynamic Programming (2D Table & Dependency Visualizer)
   if (type === "dp") {
+    // Mode 1: 0/1 Knapsack Problem (2D Table & Dependency Lookups)
+    if (mode === "knapsack_01") {
+      const rowHeaders = ["i=0 (∅)", "i=1 (wt=1, val=1)", "i=2 (wt=3, val=4)", "i=3 (wt=4, val=5)", "i=4 (wt=5, val=7)"];
+      const colHeaders = ["w=0", "w=1", "w=2", "w=3", "w=4", "w=5", "w=6", "w=7"];
+
+      // Initial grid: base row and col 0 are 0, rest null
+      const g0 = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      // After row 1
+      const g1 = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      // Row 2 filling
+      const g2_a = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      const g2_b = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 4, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      const g2_c = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 4, 5, 5, 5, 5],
+        [0, null, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      // Row 3 filling
+      const g3 = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 4, 5, 5, 5, 5],
+        [0, 1, 1, 4, 5, 6, 6, 9],
+        [0, null, null, null, null, null, null, null],
+      ];
+
+      // Full completed table
+      const gFinal = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 4, 5, 5, 5, 5],
+        [0, 1, 1, 4, 5, 6, 6, 9],
+        [0, 1, 1, 4, 5, 7, 8, 9],
+      ];
+
+      return [
+        {
+          title: "0/1 Knapsack: Table Allocation & Base Cases (W = 7)",
+          note: "dp[i][w] represents the maximum value achievable considering the first i items with knapsack capacity w. Base cases: If i=0 (no items) or w=0 (0 capacity), dp[i][w] = 0.",
+          vars: { Capacity: "W = 7", TotalItems: 4, "Base Case": "dp[0][w] = 0, dp[i][0] = 0" },
+          grid: g0,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[i][0] = 0 & dp[0][w] = 0",
+            resultExpr: "0 (Base Cases)",
+            badge: "0 Capacity / 0 Items",
+          },
+        },
+        {
+          title: "Item 1 (wt=1, val=1): Fit into Capacity w=1..7",
+          note: "For w >= 1: Weight 1 <= w. Compare: Exclude dp[0][1] (0) vs Include val[0] + dp[0][1-1] (1 + 0 = 1). Max is 1. All capacities w >= 1 get value 1.",
+          vars: { Item: "1 (wt=1, val=1)", "w = 1": "max(0, 1+0) = 1" },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 1, c: 1 },
+          sourceTop: { r: 0, c: 1 },
+          sourceOffset: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[1][1]",
+            topExpr: "Exclude: dp[0][1] = 0",
+            offsetExpr: "Include: 1 + dp[0][0] = 1",
+            resultExpr: "max(0, 1) = 1",
+            badge: "Include Item 1",
+          },
+        },
+        {
+          title: "Item 2 (wt=3, val=4) at w=2: Cannot Include (Weight > Capacity)",
+          note: "Knapsack capacity is w=2, but Item 2 weighs 3! Since 3 > 2, we CANNOT include Item 2. We must exclude it and copy the value directly from the top cell dp[1][2] = 1.",
+          vars: { "Item 2 Weight": 3, "Knapsack Capacity w": 2, Condition: "wt > w (Cannot Include)" },
+          grid: g2_a,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 2 },
+          sourceTop: { r: 1, c: 2 },
+          formulaCard: {
+            target: "dp[2][2]",
+            topExpr: "Exclude: dp[1][2] = 1",
+            resultExpr: "wt(3) > w(2) → Copy Top = 1",
+            badge: "Weight Exceeds Capacity",
+          },
+        },
+        {
+          title: "Item 2 (wt=3, val=4) at w=3: Weight Fits (Comparison!)",
+          note: "Capacity w=3 matches Item 2 weight (3 <= 3). We now compare two choices: Exclude (Top cell: dp[1][3] = 1) vs Include (val 4 + dp[1][3-3] = 4 + 0 = 4). Max is 4!",
+          vars: { Exclude: "dp[1][3] = 1", Include: "4 + dp[1][0] = 4", Optimal: "max(1, 4) = 4" },
+          grid: g2_b,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 3 },
+          sourceTop: { r: 1, c: 3 },
+          sourceOffset: { r: 1, c: 0 },
+          formulaCard: {
+            target: "dp[2][3]",
+            topExpr: "Exclude: dp[1][3] = 1",
+            offsetExpr: "Include: 4 + dp[1][0] = 4",
+            resultExpr: "max(1, 4) = 4 (Include Wins!)",
+            badge: "Include Item 2",
+          },
+        },
+        {
+          title: "Item 2 (wt=3, val=4) at w=4: Fit Both Item 1 and Item 2!",
+          note: "Capacity w=4. Exclude gives dp[1][4] = 1. Include gives val 4 + dp[1][4-3] (look up w=1, which holds Item 1 = 1) → 4 + 1 = 5! Knapsack now holds Item 1 + Item 2.",
+          vars: { Exclude: "dp[1][4] = 1", Include: "4 + dp[1][1] (1) = 5", Optimal: "max(1, 5) = 5" },
+          grid: g2_c,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 4 },
+          sourceTop: { r: 1, c: 4 },
+          sourceOffset: { r: 1, c: 1 },
+          formulaCard: {
+            target: "dp[2][4]",
+            topExpr: "Exclude: dp[1][4] = 1",
+            offsetExpr: "Include: 4 + dp[1][1] = 5",
+            resultExpr: "max(1, 5) = 5 (Both Items Fit)",
+            badge: "Combo Items 1 & 2",
+          },
+        },
+        {
+          title: "Item 3 (wt=4, val=5) at w=7: High Value Combination",
+          note: "Capacity w=7. Exclude gives dp[2][7] = 5. Include gives val 5 + dp[2][7-4] = 5 + dp[2][3] (4) = 9! Storing Item 2 and Item 3 yields 9.",
+          vars: { Exclude: "dp[2][7] = 5", Include: "5 + dp[2][3] (4) = 9", Optimal: "max(5, 9) = 9" },
+          grid: g3,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 3, c: 7 },
+          sourceTop: { r: 2, c: 7 },
+          sourceOffset: { r: 2, c: 3 },
+          formulaCard: {
+            target: "dp[3][7]",
+            topExpr: "Exclude: dp[2][7] = 5",
+            offsetExpr: "Include: 5 + dp[2][3] = 9",
+            resultExpr: "max(5, 9) = 9",
+            badge: "Optimal Combination",
+          },
+        },
+        {
+          title: "Item 4 (wt=5, val=7) at w=7: Final Cell dp[4][7]",
+          note: "Capacity w=7. Exclude gives dp[3][7] = 9 (Cyan). Include gives val 7 + dp[3][7-5] = 7 + dp[3][2] (1) = 8 (Purple). max(9, 8) = 9! Here, EXCLUDING Item 4 is better than including it!",
+          vars: { Exclude: "dp[3][7] = 9", Include: "7 + dp[3][2] = 8", MaxValue: 9 },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 4, c: 7 },
+          sourceTop: { r: 3, c: 7 },
+          sourceOffset: { r: 3, c: 2 },
+          formulaCard: {
+            target: "dp[4][7]",
+            topExpr: "Exclude: dp[3][7] = 9",
+            offsetExpr: "Include: 7 + dp[3][2] = 8",
+            resultExpr: "max(9, 8) = 9 (Exclude Wins!)",
+            badge: "Max Value = 9",
+          },
+        },
+        {
+          title: "Backtracking & Optimal Subset Recovery: Total Value = 9",
+          note: "✓ Start at dp[4][7]=9: since dp[4][7] == dp[3][7], Item 4 was NOT included. At dp[3][7]=9: dp[3][7] != dp[2][7] (9 != 5), so Item 3 (wt=4, val=5) WAS included! Subtract wt 4 → inspect dp[2][3]=4: dp[2][3] != dp[1][3] (4 != 1), so Item 2 (wt=3, val=4) WAS included! Items: {Item 2, Item 3}. Total Weight = 7, Total Value = 9.",
+          vars: { "Max Value": 9, "Items Selected": "Item 2 (wt=3, val=4), Item 3 (wt=4, val=5)", "Total Weight": "3 + 4 = 7 <= 7", Status: "Completed ✓" },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 4, c: 7 },
+          backtrackCells: [{ r: 4, c: 7 }, { r: 3, c: 7 }, { r: 2, c: 3 }, { r: 0, c: 0 }],
+          completed: true,
+          formulaCard: {
+            target: "Final Result",
+            resultExpr: "Optimal Value = 9 (Items: 2 & 3)",
+            badge: "Backtrack Complete ✓",
+          },
+        },
+      ];
+    }
+
+    // Mode 2: Longest Common Subsequence (LCS) 2D Grid
+    if (mode === "lcs_2d") {
+      const s1 = "ABCDE";
+      const s2 = "ACE";
+      const rowHeaders = ["i=0 (∅)", "i=1 ('A')", "i=2 ('B')", "i=3 ('C')", "i=4 ('D')", "i=5 ('E')"];
+      const colHeaders = ["j=0 (∅)", "j=1 ('A')", "j=2 ('C')", "j=3 ('E')"];
+
+      const g0 = [
+        [0, 0, 0, 0],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ];
+
+      const g1 = [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ];
+
+      const g2 = [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, null, null, null],
+        [0, null, null, null],
+        [0, null, null, null],
+      ];
+
+      const g3 = [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, null, null, null],
+        [0, null, null, null],
+      ];
+
+      const gFinal = [
+        [0, 0, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 1, 1],
+        [0, 1, 2, 2],
+        [0, 1, 2, 2],
+        [0, 1, 2, 3],
+      ];
+
+      return [
+        {
+          title: `LCS: Compare S1="${s1}" vs S2="${s2}"`,
+          note: "dp[i][j] stores the length of the Longest Common Subsequence between S1[0..i-1] and S2[0..j-1]. If characters match: 1 + dp[i-1][j-1] (Diagonal). If mismatch: max(dp[i-1][j], dp[i][j-1]) (Top vs Left).",
+          vars: { S1: `"${s1}"`, S2: `"${s2}"`, BaseCases: "dp[0][j] = 0, dp[i][0] = 0" },
+          grid: g0,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[0][j] & dp[i][0]",
+            resultExpr: "0 (Empty String Prefixes)",
+            badge: "Base Cases",
+          },
+        },
+        {
+          title: "i=1, j=1: Match! 'A' == 'A' → Diagonal + 1",
+          note: "S1[0] ('A') == S2[0] ('A'). Since the characters are identical, extend the previous diagonal subsequence by 1: dp[1][1] = 1 + dp[0][0] = 1 + 0 = 1.",
+          vars: { "S1[0]": "'A'", "S2[0]": "'A'", Match: "TRUE", Calculation: "1 + dp[0][0] = 1" },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 1, c: 1 },
+          sourceDiag: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[1][1]",
+            diagExpr: "Diagonal: 1 + dp[0][0] = 1 + 0",
+            resultExpr: "'A' == 'A' → 1",
+            badge: "Match (+1 Diagonal)",
+          },
+        },
+        {
+          title: "i=2, j=1: Mismatch! 'B' != 'A' → max(Top, Left)",
+          note: "S1[1] ('B') != S2[0] ('A'). Characters do not match. Take the maximum between ignoring S1's char (Top: dp[1][1] = 1) and ignoring S2's char (Left: dp[2][0] = 0) → max(1, 0) = 1.",
+          vars: { "S1[1]": "'B'", "S2[0]": "'A'", Match: "FALSE", Formula: "max(Top=1, Left=0) = 1" },
+          grid: g2,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 1 },
+          sourceTop: { r: 1, c: 1 },
+          sourceLeft: { r: 2, c: 0 },
+          formulaCard: {
+            target: "dp[2][1]",
+            topExpr: "Top: dp[1][1] = 1",
+            leftExpr: "Left: dp[2][0] = 0",
+            resultExpr: "max(1, 0) = 1",
+            badge: "Mismatch (max(Top, Left))",
+          },
+        },
+        {
+          title: "i=3, j=2: Match! 'C' == 'C' → Diagonal + 1",
+          note: "S1[2] ('C') == S2[1] ('C'). Characters match! Look at the diagonal cell dp[2][1] (which represents 'A' matching 'A' = 1) and add 1 → 1 + dp[2][1] = 1 + 1 = 2.",
+          vars: { "S1[2]": "'C'", "S2[1]": "'C'", Calculation: "1 + dp[2][1] (1) = 2" },
+          grid: g3,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 3, c: 2 },
+          sourceDiag: { r: 2, c: 1 },
+          formulaCard: {
+            target: "dp[3][2]",
+            diagExpr: "Diagonal: 1 + dp[2][1] = 1 + 1",
+            resultExpr: "'C' == 'C' → 2",
+            badge: "Match (+1 Diagonal)",
+          },
+        },
+        {
+          title: "i=5, j=3: Match! 'E' == 'E' → Final LCS Length = 3",
+          note: "S1[4] ('E') == S2[2] ('E'). Characters match! Extend diagonal subsequence dp[4][2] (2) by 1: 1 + dp[4][2] = 1 + 2 = 3. Final LCS length is 3!",
+          vars: { "S1[4]": "'E'", "S2[2]": "'E'", Calculation: "1 + dp[4][2] (2) = 3", FinalLength: 3 },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 5, c: 3 },
+          sourceDiag: { r: 4, c: 2 },
+          formulaCard: {
+            target: "dp[5][3]",
+            diagExpr: "Diagonal: 1 + dp[4][2] = 1 + 2",
+            resultExpr: "'E' == 'E' → 3",
+            badge: "LCS Length = 3",
+          },
+        },
+        {
+          title: "Backtrack Reconstructing LCS: Subsequence = \"ACE\"",
+          note: "✓ Backtracking from dp[5][3]: Match 'E' at (5,3) → Diag (4,2). Follow equal values up to (3,2) → Match 'C' → Diag (2,1). Follow up to (1,1) → Match 'A' → Diag (0,0). Reconstructed LCS: \"ACE\" with length 3.",
+          vars: { ReconstructedLCS: '"ACE"', Length: 3, Time: "O(M * N)", Space: "O(M * N)", Status: "Completed ✓" },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 5, c: 3 },
+          backtrackCells: [{ r: 5, c: 3 }, { r: 3, c: 2 }, { r: 1, c: 1 }],
+          completed: true,
+          formulaCard: {
+            target: "LCS Result",
+            resultExpr: "LCS = \"ACE\", Length = 3",
+            badge: "Backtrack Complete ✓",
+          },
+        },
+      ];
+    }
+
+    // Mode 3: Coin Change (Fewest Coins Target)
+    if (mode === "coin_change") {
+      const rowHeaders = ["Coin ∅", "Coin 1", "Coin 2", "Coin 5"];
+      const colHeaders = ["Amt 0", "Amt 1", "Amt 2", "Amt 3", "Amt 4", "Amt 5", "Amt 6"];
+
+      const g0 = [
+        [0, "∞", "∞", "∞", "∞", "∞", "∞"],
+        [0, 1, 2, 3, 4, 5, 6],
+        [0, null, null, null, null, null, null],
+        [0, null, null, null, null, null, null],
+      ];
+
+      const g1 = [
+        [0, "∞", "∞", "∞", "∞", "∞", "∞"],
+        [0, 1, 2, 3, 4, 5, 6],
+        [0, 1, 1, 2, 2, 3, 3],
+        [0, null, null, null, null, null, null],
+      ];
+
+      const gFinal = [
+        [0, "∞", "∞", "∞", "∞", "∞", "∞"],
+        [0, 1, 2, 3, 4, 5, 6],
+        [0, 1, 1, 2, 2, 3, 3],
+        [0, 1, 1, 2, 2, 1, 2],
+      ];
+
+      return [
+        {
+          title: "Coin Change: Minimum Coins to make Amount 6 (Coins: [1, 2, 5])",
+          note: "dp[i][a] stores the minimum number of coins from the first i denominations needed to make amount a. dp[i][a] = min(dp[i-1][a] (Exclude), 1 + dp[i][a - coin] (Include)).",
+          vars: { Coins: "[1, 2, 5]", Target: 6, Formula: "min(Exclude, 1 + Include)" },
+          grid: g0,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 1, c: 1 },
+          formulaCard: {
+            target: "dp[1][a]",
+            resultExpr: "Using only Coin 1 requires 'a' coins",
+            badge: "Coin 1 (Only 1s)",
+          },
+        },
+        {
+          title: "Add Coin 2: Evaluate Amount 3 (dp[2][3])",
+          note: "Compare: Exclude Coin 2 (Top: dp[1][3] = 3 coins of 1) vs Include Coin 2 (1 coin + dp[2][3-2] = 1 + dp[2][1] (1) = 2 coins) → min(3, 2) = 2 coins (one 2 + one 1).",
+          vars: { Exclude: "dp[1][3] = 3", Include: "1 + dp[2][1] = 2", MinCoins: 2 },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 3 },
+          sourceTop: { r: 1, c: 3 },
+          sourceOffset: { r: 2, c: 1 },
+          formulaCard: {
+            target: "dp[2][3]",
+            topExpr: "Exclude: dp[1][3] = 3",
+            offsetExpr: "Include: 1 + dp[2][1] = 2",
+            resultExpr: "min(3, 2) = 2 (one 2-coin + one 1-coin)",
+            badge: "Coin 2 Saves Coins!",
+          },
+        },
+        {
+          title: "Add Coin 2: Evaluate Amount 4 (dp[2][4])",
+          note: "Compare: Exclude Coin 2 (Top: dp[1][4] = 4 coins of 1) vs Include Coin 2 (1 coin + dp[2][4-2] = 1 + dp[2][2] (1) = 2 coins) → min(4, 2) = 2 coins (two 2-coins).",
+          vars: { Exclude: "dp[1][4] = 4", Include: "1 + dp[2][2] = 2", MinCoins: 2 },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 4 },
+          sourceTop: { r: 1, c: 4 },
+          sourceOffset: { r: 2, c: 2 },
+          formulaCard: {
+            target: "dp[2][4]",
+            topExpr: "Exclude: dp[1][4] = 4",
+            offsetExpr: "Include: 1 + dp[2][2] = 2",
+            resultExpr: "min(4, 2) = 2 (two 2-coins: 2+2)",
+            badge: "2 + 2 = 4",
+          },
+        },
+        {
+          title: "Add Coin 5: Evaluate Amount 6 (dp[3][6])",
+          note: "Compare: Exclude Coin 5 (Top: dp[2][6] = 3 coins: 2+2+2) vs Include Coin 5 (1 coin + dp[3][6-5] = 1 + dp[3][1] (1) = 2 coins: 5+1). min(3, 2) = 2 coins!",
+          vars: { Exclude: "dp[2][6] = 3 (2+2+2)", Include: "1 + dp[3][1] = 2 (5+1)", FinalMinCoins: 2 },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 3, c: 6 },
+          sourceTop: { r: 2, c: 6 },
+          sourceOffset: { r: 3, c: 1 },
+          formulaCard: {
+            target: "dp[3][6]",
+            topExpr: "Exclude: dp[2][6] = 3",
+            offsetExpr: "Include: 1 + dp[3][1] = 2",
+            resultExpr: "min(3, 2) = 2 (Coins: 5 + 1)",
+            badge: "Fewest Coins = 2",
+          },
+        },
+        {
+          title: "Coin Change Optimal Backtrack: Result = 2 Coins",
+          note: "✓ Backtracking from dp[3][6]: Coin 5 used (amount shrinks to 1). At dp[3][1]: Coin 1 used (amount shrinks to 0). Minimum coins required = 2 ({5, 1}).",
+          vars: { MinCoins: 2, SelectedCoins: "Coin 5, Coin 1", TotalSum: "5 + 1 = 6", Status: "Completed ✓" },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 3, c: 6 },
+          backtrackCells: [{ r: 3, c: 6 }, { r: 1, c: 1 }],
+          completed: true,
+          formulaCard: {
+            target: "Result",
+            resultExpr: "Fewest Coins = 2 ({5, 1})",
+            badge: "Backtrack Complete ✓",
+          },
+        },
+      ];
+    }
+
+    // Mode 4: Subset Sum Boolean DP Table
+    if (mode === "subset_sum") {
+      const rowHeaders = ["i=0 (∅)", "i=1 (val=2)", "i=2 (val=3)", "i=3 (val=7)", "i=4 (val=8)"];
+      const colHeaders = ["S=0", "S=2", "S=3", "S=5", "S=7", "S=8", "S=10", "S=11"];
+
+      const g0 = [
+        ["T", "F", "F", "F", "F", "F", "F", "F"],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+      ];
+
+      const g1 = [
+        ["T", "F", "F", "F", "F", "F", "F", "F"],
+        ["T", "T", "F", "F", "F", "F", "F", "F"],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+      ];
+
+      const g2 = [
+        ["T", "F", "F", "F", "F", "F", "F", "F"],
+        ["T", "T", "F", "F", "F", "F", "F", "F"],
+        ["T", "T", "T", "T", "F", "F", "F", "F"],
+        ["T", null, null, null, null, null, null, null],
+        ["T", null, null, null, null, null, null, null],
+      ];
+
+      const gFinal = [
+        ["T", "F", "F", "F", "F", "F", "F", "F"],
+        ["T", "T", "F", "F", "F", "F", "F", "F"],
+        ["T", "T", "T", "T", "F", "F", "F", "F"],
+        ["T", "T", "T", "T", "T", "F", "T", "F"],
+        ["T", "T", "T", "T", "T", "T", "T", "T"],
+      ];
+
+      return [
+        {
+          title: "Subset Sum: Can elements in [2, 3, 7, 8] sum to Target 11?",
+          note: "Boolean DP grid: dp[i][j] is TRUE if target sum j can be formed using a subset of the first i elements. Base case: Target sum 0 is always TRUE using the empty subset.",
+          vars: { Set: "[2, 3, 7, 8]", Target: 11, BaseCase: "dp[i][0] = True (Empty subset)" },
+          grid: g0,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[i][0]",
+            resultExpr: "TRUE (Empty Subset)",
+            badge: "Sum 0 Base Case",
+          },
+        },
+        {
+          title: "Include Item 1 (val=2): Sum 2 is achievable",
+          note: "dp[1][2] = dp[0][2] (F) || dp[0][2-2] (dp[0][0]=T) = TRUE! We can form sum 2 using {2}.",
+          vars: { Item: "val=2", Achievable: "Sum 2 = TRUE" },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 1, c: 1 },
+          sourceTop: { r: 0, c: 1 },
+          sourceOffset: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[1][2]",
+            topExpr: "Exclude: dp[0][2] = F",
+            offsetExpr: "Include: dp[0][0] = T",
+            resultExpr: "F || T = TRUE ✓",
+            badge: "Subset {2}",
+          },
+        },
+        {
+          title: "Include Item 2 (val=3): Sum 3 and Sum 5 are achievable",
+          note: "dp[2][3] is TRUE via {3}. dp[2][5] is TRUE via {2, 3} because dp[1][5-3] = dp[1][2] = TRUE.",
+          vars: { Item: "val=3", AchievableSums: "2, 3, 5" },
+          grid: g2,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 3 },
+          sourceTop: { r: 1, c: 3 },
+          sourceOffset: { r: 1, c: 1 },
+          formulaCard: {
+            target: "dp[2][5]",
+            topExpr: "Exclude: dp[1][5] = F",
+            offsetExpr: "Include: dp[1][2] = T",
+            resultExpr: "F || T = TRUE ✓ ({2, 3} = 5)",
+            badge: "Subset {2, 3} = 5",
+          },
+        },
+        {
+          title: "Include Item 4 (val=8) at Target Sum 11: Final Cell dp[4][11]",
+          note: "Exclude 8: dp[3][11] is FALSE. Include 8: check dp[3][11-8] = dp[3][3] which is TRUE! FALSE || TRUE = TRUE!",
+          vars: { Target: 11, Exclude: "dp[3][11] = F", Include: "dp[3][3] = T", Result: "TRUE ✓" },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 4, c: 7 },
+          sourceTop: { r: 3, c: 7 },
+          sourceOffset: { r: 3, c: 2 },
+          formulaCard: {
+            target: "dp[4][11]",
+            topExpr: "Exclude 8: dp[3][11] = F",
+            offsetExpr: "Include 8: dp[3][3] = T",
+            resultExpr: "F || T = TRUE ✓",
+            badge: "Target 11 Achieved",
+          },
+        },
+        {
+          title: "Subset Sum Verified! Solution Subset: {8, 3} = 11",
+          note: "✓ Backtracking proves a valid subset exists: 8 + 3 = 11. Function returns true.",
+          vars: { Solution: "{8, 3}", Sum: "8 + 3 = 11", Result: "true ✓", Status: "Completed ✓" },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 4, c: 7 },
+          backtrackCells: [{ r: 4, c: 7 }, { r: 2, c: 2 }],
+          completed: true,
+          formulaCard: {
+            target: "Final Result",
+            resultExpr: "Subset {8, 3} = 11 → TRUE ✓",
+            badge: "Subset Sum Valid",
+          },
+        },
+      ];
+    }
+
+    // Mode 5: Minimum Cost Path in Matrix
+    if (mode === "min_cost_path") {
+      const rowHeaders = ["r=0", "r=1", "r=2"];
+      const colHeaders = ["c=0", "c=1", "c=2"];
+
+      const g0 = [
+        [1, null, null],
+        [null, null, null],
+        [null, null, null],
+      ];
+
+      const g1 = [
+        [1, 3, 6],
+        [null, null, null],
+        [null, null, null],
+      ];
+
+      const g2 = [
+        [1, 3, 6],
+        [5, null, null],
+        [6, null, null],
+      ];
+
+      const g3 = [
+        [1, 3, 6],
+        [5, 9, null],
+        [6, null, null],
+      ];
+
+      const gFinal = [
+        [1, 3, 6],
+        [5, 9, 5],
+        [6, 10, 8],
+      ];
+
+      return [
+        {
+          title: "Min Cost Path in Matrix: Start at (0,0) with Cost 1",
+          note: "Original Costs: [[1, 2, 3], [4, 8, 2], [1, 5, 3]]. Allowed moves: Right, Down, Diagonal. Base case: dp[0][0] = cost[0][0] = 1.",
+          vars: { Origin: "(0,0) = 1", Destination: "(2,2)", Moves: "Right, Down, Diagonal" },
+          grid: g0,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[0][0]",
+            resultExpr: "cost[0][0] = 1 (Origin)",
+            badge: "Origin Base Case",
+          },
+        },
+        {
+          title: "Fill First Row: Accumulate Costs from the Left",
+          note: "Cells in row 0 can only be reached by moving Right: dp[0][1] = 1 + 2 = 3; dp[0][2] = 3 + 3 = 6.",
+          vars: { "dp[0][1]": "1 + 2 = 3", "dp[0][2]": "3 + 3 = 6" },
+          grid: g1,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 0, c: 2 },
+          sourceLeft: { r: 0, c: 1 },
+          formulaCard: {
+            target: "dp[0][2]",
+            leftExpr: "Left: dp[0][1] = 3",
+            resultExpr: "cost(3) + Left(3) = 6",
+            badge: "Right Move Only",
+          },
+        },
+        {
+          title: "Fill First Column: Accumulate Costs from the Top",
+          note: "Cells in col 0 can only be reached by moving Down: dp[1][0] = 1 + 4 = 5; dp[2][0] = 5 + 1 = 6.",
+          vars: { "dp[1][0]": "1 + 4 = 5", "dp[2][0]": "5 + 1 = 6" },
+          grid: g2,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 0 },
+          sourceTop: { r: 1, c: 0 },
+          formulaCard: {
+            target: "dp[2][0]",
+            topExpr: "Top: dp[1][0] = 5",
+            resultExpr: "cost(1) + Top(5) = 6",
+            badge: "Down Move Only",
+          },
+        },
+        {
+          title: "Cell (1,1): 3-Way Lookups (min(Top, Left, Diagonal))",
+          note: "Compare Top (0,1)=3 (Cyan), Left (1,0)=5 (Rose), Diagonal (0,0)=1 (Emerald). min(3, 5, 1) = 1 (Diagonal is cheapest!). dp[1][1] = cost(8) + 1 = 9.",
+          vars: { Top: 3, Left: 5, Diag: 1, Cost: 8, Result: "8 + min(3, 5, 1) = 9" },
+          grid: g3,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 1, c: 1 },
+          sourceTop: { r: 0, c: 1 },
+          sourceLeft: { r: 1, c: 0 },
+          sourceDiag: { r: 0, c: 0 },
+          formulaCard: {
+            target: "dp[1][1]",
+            topExpr: "Top: 3",
+            leftExpr: "Left: 5",
+            diagExpr: "Diag: 1",
+            resultExpr: "8 + min(3, 5, 1) = 9",
+            badge: "3-Way Minimum Lookup",
+          },
+        },
+        {
+          title: "Final Destination (2,2): Min Cost = 8",
+          note: "At (2,2): cost is 3. Compare Top (1,2)=5, Left (2,1)=10, Diagonal (1,1)=9. min(5, 10, 9) = 5 (from Top). dp[2][2] = 3 + 5 = 8!",
+          vars: { Top: 5, Left: 10, Diag: 9, MinPathCost: 8 },
+          grid: gFinal,
+          rowHeaders,
+          colHeaders,
+          activeCell: { r: 2, c: 2 },
+          sourceTop: { r: 1, c: 2 },
+          sourceLeft: { r: 2, c: 1 },
+          sourceDiag: { r: 1, c: 1 },
+          backtrackCells: [{ r: 0, c: 0 }, { r: 0, c: 1 }, { r: 1, c: 2 }, { r: 2, c: 2 }],
+          completed: true,
+          formulaCard: {
+            target: "dp[2][2]",
+            topExpr: "Top: 5",
+            leftExpr: "Left: 10",
+            diagExpr: "Diag: 9",
+            resultExpr: "3 + min(5, 10, 9) = 8",
+            badge: "Goal Reached: Min Cost = 8",
+          },
+        },
+      ];
+    }
+
+    // Default: 1D DP Cover Distance (Tribonacci)
     return [
       {
-        title: "Base Cases: dp[0] = 1, dp[1] = 1, dp[2] = 2",
-        note: "Distance cover problem: Ways to cover distance using 1, 2, or 3 steps.",
+        title: "Cover Distance N = 4: Base Cases (dp[0]=1, dp[1]=1, dp[2]=2)",
+        note: "Q111: Count ways to cover distance N using steps of size 1, 2, or 3. dp[i] = dp[i-1] + dp[i-2] + dp[i-3]. Base cases: dp[0]=1, dp[1]=1, dp[2]=2.",
         vars: { "dp[0]": 1, "dp[1]": 1, "dp[2]": 2 },
         table: [1, 1, 2, null, null],
         currentIdx: 2,
@@ -4208,12 +4997,13 @@ function computeVisualizerSteps(structure, mode) {
         sources: [0, 1, 2],
       },
       {
-        title: "Compute dp[4] = dp[3] + dp[2] + dp[1]",
+        title: "Compute dp[4] = dp[3] + dp[2] + dp[1] (Final Answer = 7)",
         note: "dp[4] = 4 + 2 + 1 = 7 ways to cover distance 4.",
-        vars: { "dp[4]": "4 + 2 + 1 = 7", FinalAnswer: 7 },
+        vars: { "dp[4]": "4 + 2 + 1 = 7", FinalWays: 7, Complexity: "O(N) Time, O(1) Space" },
         table: [1, 1, 2, 4, 7],
         currentIdx: 4,
         sources: [1, 2, 3],
+        completed: true,
       },
     ];
   }
@@ -5179,25 +5969,113 @@ function drawVisualizerCanvas() {
     return;
   }
 
-  // 8. Dynamic Programming
+  // 8. Dynamic Programming (2D Grid & 1D Table Visualizer)
   if (vizStructure.type === "dp") {
-    const table = (!isZero && step.table) ? step.table : [1, 1, 2, null, null];
+    const grid = (step.grid) || (vizSteps[0] && vizSteps[0].grid) || null;
+
+    if (grid) {
+      const rowHeaders = step.rowHeaders || (vizSteps[0] && vizSteps[0].rowHeaders) || [];
+      const colHeaders = step.colHeaders || (vizSteps[0] && vizSteps[0].colHeaders) || [];
+      const active = (!isZero && step.activeCell) ? step.activeCell : null;
+      const topCell = (!isZero && step.sourceTop) ? step.sourceTop : null;
+      const offsetCell = (!isZero && step.sourceOffset) ? step.sourceOffset : null;
+      const diagCell = (!isZero && step.sourceDiag) ? step.sourceDiag : null;
+      const leftCell = (!isZero && step.sourceLeft) ? step.sourceLeft : null;
+      const backtrack = (!isZero && step.backtrackCells) ? step.backtrackCells : [];
+      const formula = (!isZero && step.formulaCard) ? step.formulaCard : (vizSteps[0] ? vizSteps[0].formulaCard : null);
+
+      container.innerHTML = `
+        <div class="viz-dp-container">
+          ${formula ? `
+            <div class="viz-dp-formula-card">
+              <div class="viz-dp-formula-title">
+                <span>Dynamic Programming Transition & Cell Lookup</span>
+                ${formula.badge ? `<span class="viz-pointer-badge" style="background: rgba(99, 102, 241, 0.2); border-color: #6366f1; color: #818cf8;">${escapeHtml(formula.badge)}</span>` : ""}
+              </div>
+              <div class="viz-dp-formula-math">
+                ${formula.target ? `<span class="viz-dp-badge-target">${escapeHtml(formula.target)}</span>` : ""}
+                ${formula.topExpr || formula.diagExpr || formula.resultExpr ? `<span>=</span>` : ""}
+                ${formula.topExpr ? `<span class="viz-dp-badge-top" title="Exclude item / Top cell">${escapeHtml(formula.topExpr)}</span>` : ""}
+                ${formula.topExpr && (formula.offsetExpr || formula.leftExpr) ? `<span style="opacity: 0.6; font-size: 11px;">vs</span>` : ""}
+                ${formula.offsetExpr ? `<span class="viz-dp-badge-offset" title="Include item / Offset cell">${escapeHtml(formula.offsetExpr)}</span>` : ""}
+                ${formula.diagExpr ? `<span class="viz-dp-badge-diag" title="Diagonal Match + 1">${escapeHtml(formula.diagExpr)}</span>` : ""}
+                ${formula.leftExpr ? `<span class="viz-dp-badge-left" title="Left cell look-up">${escapeHtml(formula.leftExpr)}</span>` : ""}
+                ${formula.resultExpr ? `<span style="opacity: 0.7;">→</span><span class="viz-dp-badge-chosen">${escapeHtml(formula.resultExpr)}</span>` : ""}
+              </div>
+              <div class="viz-dp-legend">
+                <span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #f59e0b;"></span> Active Cell</span>
+                ${formula.topExpr ? `<span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #0ea5e9;"></span> Top (Exclude)</span>` : ""}
+                ${formula.offsetExpr ? `<span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #a855f7;"></span> Offset (Include)</span>` : ""}
+                ${formula.diagExpr ? `<span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #10b981;"></span> Diagonal Match</span>` : ""}
+                ${formula.leftExpr ? `<span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #f43f5e;"></span> Left Cell</span>` : ""}
+                ${backtrack.length > 0 ? `<span class="viz-dp-legend-item"><span class="viz-dp-legend-dot" style="background: #10b981; box-shadow: 0 0 6px #10b981;"></span> Solution Backtrack</span>` : ""}
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="viz-dp-table-wrap">
+            <table class="viz-dp-table">
+              <thead>
+                <tr>
+                  <th class="viz-dp-cell header"></th>
+                  ${colHeaders.map(ch => `<th class="viz-dp-cell header">${escapeHtml(ch)}</th>`).join("")}
+                </tr>
+              </thead>
+              <tbody>
+                ${grid.map((row, r) => `
+                  <tr>
+                    <th class="viz-dp-cell header" style="text-align: right; padding-right: 10px;">${escapeHtml(rowHeaders[r] || `i=${r}`)}</th>
+                    ${row.map((val, c) => {
+                      const isTarget = active && active.r === r && active.c === c;
+                      const isTop = topCell && topCell.r === r && topCell.c === c;
+                      const isOffset = offsetCell && offsetCell.r === r && offsetCell.c === c;
+                      const isDiag = diagCell && diagCell.r === r && diagCell.c === c;
+                      const isLeft = leftCell && leftCell.r === r && leftCell.c === c;
+                      const isBacktrack = backtrack.some(pt => pt.r === r && pt.c === c);
+                      const isUnfilled = val === null || val === undefined;
+
+                      let cls = "viz-dp-cell";
+                      if (isTarget) cls += " target-cell";
+                      else if (isBacktrack) cls += " backtrack-path";
+                      else if (isTop) cls += " source-top";
+                      else if (isOffset) cls += " source-offset";
+                      else if (isDiag) cls += " source-diag";
+                      else if (isLeft) cls += " source-left";
+                      else if (isUnfilled) cls += " unfilled";
+
+                      return `<td class="${cls}">${val !== null && val !== undefined ? escapeHtml(val) : "—"}</td>`;
+                    }).join("")}
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // Fallback: 1D DP table
+    const table = (!isZero && step.table) ? step.table : (vizSteps[0] ? vizSteps[0].table : [1, 1, 2, null, null]);
     const curIdx = !isZero ? step.currentIdx : -1;
     const sources = (!isZero && step.sources) ? step.sources : [];
     container.innerHTML = `
-      <table class="viz-dp-table">
-        <tr>
-          ${table.map((c, i) => `<th class="viz-dp-cell header">dp[${i}]</th>`).join("")}
-        </tr>
-        <tr>
-          ${table.map((c, i) => {
-            let cls = "viz-dp-cell";
-            if (i === curIdx) cls += " active-calc";
-            else if (sources.includes(i)) cls += " source-calc";
-            return `<td class="${cls}">${c !== null ? c : "—"}</td>`;
-          }).join("")}
-        </tr>
-      </table>
+      <div class="viz-dp-table-wrap">
+        <table class="viz-dp-table">
+          <tr>
+            ${table.map((c, i) => `<th class="viz-dp-cell header">dp[${i}]</th>`).join("")}
+          </tr>
+          <tr>
+            ${table.map((c, i) => {
+              let cls = "viz-dp-cell";
+              if (i === curIdx) cls += " target-cell";
+              else if (sources.includes(i)) cls += " source-top";
+              else if (c === null) cls += " unfilled";
+              return `<td class="${cls}">${c !== null ? escapeHtml(c) : "—"}</td>`;
+            }).join("")}
+          </tr>
+        </table>
+      </div>
     `;
     return;
   }

@@ -4660,44 +4660,237 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 }
 
 /* ==========================================================================
-   Dynamic Programming Table
+   Dynamic Programming Table (1D Array & 2D Grid Visualizer)
    ========================================================================== */
-.viz-dp-table {
-  border-collapse: collapse;
+.viz-dp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.viz-dp-formula-card {
+  width: 100%;
+  max-width: 660px;
   background: var(--bg-card);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+}
+
+.viz-dp-formula-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.viz-dp-formula-math {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--text-main);
+  background: var(--bg-card-subtle);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px dashed var(--border-color);
+}
+
+.viz-dp-badge-target {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid #f59e0b;
+  color: #fbbf24;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-weight: 800;
+}
+
+.viz-dp-badge-top {
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid #0ea5e9;
+  color: #38bdf8;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.viz-dp-badge-offset {
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid #a855f7;
+  color: #c084fc;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.viz-dp-badge-diag {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #34d399;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.viz-dp-badge-left {
+  background: rgba(244, 63, 94, 0.2);
+  border: 1px solid #f43f5e;
+  color: #fb7185;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.viz-dp-badge-chosen {
+  background: rgba(16, 185, 129, 0.25);
+  border: 1.5px solid #10b981;
+  color: #10b981;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-weight: 900;
+}
+
+.viz-dp-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-top: 2px;
+}
+
+.viz-dp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.viz-dp-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.viz-dp-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 6px 14px 6px;
+  display: flex;
+  justify-content: center;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.4) transparent;
+}
+
+.viz-dp-table-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+
+.viz-dp-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 9999px;
+}
+
+.viz-dp-table {
+  border-collapse: separate;
+  border-spacing: 4px;
+  background: transparent;
+  user-select: none;
 }
 
 .viz-dp-cell {
-  border: 1px solid var(--border-color);
-  padding: 9px 14px;
+  min-width: 44px;
+  height: 38px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-card);
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-main);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
 }
 
 .viz-dp-cell.header {
   background: var(--bg-secondary);
   font-weight: 800;
+  font-size: 11px;
   color: var(--text-subtle);
+  border-color: rgba(148, 163, 184, 0.2);
+  white-space: nowrap;
 }
 
-.viz-dp-cell.active-calc {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.35) 100%) !important;
+.viz-dp-cell.target-cell {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.4) 100%) !important;
   border-color: #f59e0b !important;
   color: #fbbf24 !important;
-  font-weight: 800;
-  box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.4);
+  font-weight: 900;
+  transform: scale(1.12);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.6), inset 0 0 8px rgba(245, 158, 11, 0.3);
+  z-index: 2;
 }
 
-.viz-dp-cell.source-calc {
+.viz-dp-cell.source-top {
   background: linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(59, 130, 246, 0.3) 100%) !important;
   border-color: #0ea5e9 !important;
   color: #38bdf8 !important;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.45);
+}
+
+.viz-dp-cell.source-offset {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(139, 92, 246, 0.3) 100%) !important;
+  border-color: #a855f7 !important;
+  color: #c084fc !important;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.45);
+}
+
+.viz-dp-cell.source-diag {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.3) 100%) !important;
+  border-color: #10b981 !important;
+  color: #34d399 !important;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.45);
+}
+
+.viz-dp-cell.source-left {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.25) 0%, rgba(225, 29, 72, 0.3) 100%) !important;
+  border-color: #f43f5e !important;
+  color: #fb7185 !important;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.45);
+}
+
+.viz-dp-cell.backtrack-path {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(245, 158, 11, 0.35) 100%) !important;
+  border-color: #10b981 !important;
+  color: #34d399 !important;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+  transform: scale(1.05);
+}
+
+.viz-dp-cell.unfilled {
+  opacity: 0.38;
+  color: var(--text-subtle);
+  border-style: dashed;
 }
 
 /* ==========================================================================
