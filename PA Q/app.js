@@ -2162,7 +2162,7 @@ function buildModelForProblem(prob) {
   }
 
   // 4. Searching & Sorting
-  if (cat.includes("searching") || cat.includes("sorting") || title.includes("sort") || title.includes("search")) {
+  if ((cat.includes("searching") || cat.includes("sorting") || title.includes("sort") || title.includes("search")) && !cat.includes("linked") && !cat.includes("circular") && !cat.includes("doubly")) {
     return {
       type: "array_search_sort",
       title: "Step-by-Step Searching & Sorting Algorithm Visualizer",
@@ -2223,7 +2223,7 @@ function buildModelForProblem(prob) {
   }
 
   // 5b. Circular Linked List
-  if (cat.includes("circular linked") || id.includes("circular") || title.includes("circular")) {
+  if ((cat.includes("circular linked") || id.includes("circular") || title.includes("circular")) && !cat.includes("queue") && !title.includes("queue")) {
     if (id === "q45_given_list_is_circular_or_not" || title.includes("circular or not")) {
       return {
         type: "circular_linked_list",
@@ -2586,7 +2586,7 @@ function buildModelForProblem(prob) {
 
 function computeVisualizerSteps(structure, mode) {
   if (!structure) return [];
-  const type = structure.type;
+  const type = typeof structure === "string" ? structure : (structure.type || "");
 
   // 1. Matrix 2D
   if (type === "matrix_2d") {
@@ -4888,7 +4888,7 @@ function drawVisualizerCanvas() {
 
   // 1. Matrix 2D
   if (vizStructure.type === "matrix_2d" || vizStructure.type === "backtracking") {
-    const mat = (isZero && vizSteps[0]) ? vizSteps[0].matrix : (step.matrix || [[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    const mat = (step.matrix) || (vizSteps[0] && vizSteps[0].matrix) || [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
     container.innerHTML = `
       <div class="viz-matrix-container">
         <div class="viz-matrix-grid" style="grid-template-columns: repeat(${mat.length}, 46px);">
@@ -4914,7 +4914,7 @@ function drawVisualizerCanvas() {
 
   // 2. Array Search / Sort & 1D Array
   if (vizStructure.type === "array_search_sort" || vizStructure.type === "array_1d" || vizStructure.type === "greedy") {
-    const arr = (isZero && vizSteps[0]) ? vizSteps[0].array : (step.array || [10, 20, 30, 40, 50]);
+    const arr = (step.array) || (vizSteps[0] && vizSteps[0].array) || [10, 20, 30, 40, 50];
     const pointers = (!isZero && step.pointers) ? step.pointers : {};
     container.innerHTML = `
       <div class="viz-array-wrap">
@@ -4948,7 +4948,7 @@ function drawVisualizerCanvas() {
 
   // 3a. Doubly Linked List Visualizer Canvas
   if (vizStructure.type === "doubly_linked_list") {
-    const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
+    const nodes = (step.nodes) || (vizSteps[0] && vizSteps[0].nodes) || [];
     const pointers = (!isZero && step.pointers) ? step.pointers : {};
     const swapped = (!isZero && step.swappedNodes) ? step.swappedNodes : [];
     const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
@@ -4993,7 +4993,7 @@ function drawVisualizerCanvas() {
 
   // 3b. Circular Linked List Visualizer Canvas
   if (vizStructure.type === "circular_linked_list") {
-    const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
+    const nodes = (step.nodes) || (vizSteps[0] && vizSteps[0].nodes) || [];
     const pointers = (!isZero && step.pointers) ? step.pointers : {};
     const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
     const swapped = (!isZero && step.swappedNodes) ? step.swappedNodes : [];
@@ -5039,7 +5039,7 @@ function drawVisualizerCanvas() {
 
   // 3c. Singly Linked List Visualizer Canvas
   if (vizStructure.type === "singly_linked_list" || vizStructure.type === "linked_list") {
-    const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
+    const nodes = (step.nodes) || (vizSteps[0] && vizSteps[0].nodes) || [];
     const pointers = (!isZero && step.pointers) ? step.pointers : {};
     const reversedArrows = (!isZero && step.reversedArrows) ? step.reversedArrows : [];
     const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
