@@ -4121,11 +4121,13 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   min-height: 210px;
-  max-height: 290px;
+  height: auto;
+  max-height: none;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: visible;
   padding: 14px;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
 }
@@ -4139,9 +4141,10 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 6px;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 4px;
+  min-height: 100%;
 }
 
 .viz-svg {
@@ -4673,14 +4676,14 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 
 .viz-dp-formula-card {
   width: 100%;
-  max-width: 660px;
+  max-width: 620px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 10px 14px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
 }
@@ -4698,15 +4701,15 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 
 .viz-dp-formula-math {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 800;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   color: var(--text-main);
   background: var(--bg-card-subtle);
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 6px;
   border: 1px dashed var(--border-color);
 }
@@ -4786,13 +4789,15 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 
 .viz-dp-table-wrap {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
-  overflow-y: hidden;
-  padding: 4px 6px 14px 6px;
+  overflow-y: visible;
+  padding: 4px 6px 12px 6px;
   display: flex;
   justify-content: center;
   scrollbar-width: thin;
   scrollbar-color: rgba(99, 102, 241, 0.4) transparent;
+  box-sizing: border-box;
 }
 
 .viz-dp-table-wrap::-webkit-scrollbar {
@@ -4806,34 +4811,46 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 
 .viz-dp-table {
   border-collapse: separate;
-  border-spacing: 4px;
+  border-spacing: 5px;
   background: transparent;
   user-select: none;
+  margin: 0 auto;
 }
 
 .viz-dp-cell {
-  min-width: 44px;
-  height: 38px;
-  padding: 4px 8px;
-  border-radius: 6px;
+  min-width: 42px;
+  height: 40px;
+  padding: 4px 6px;
+  border-radius: 7px;
   border: 1.5px solid var(--border-color);
   background: var(--bg-card);
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text-main);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-sizing: border-box;
 }
 
 .viz-dp-cell.header {
   background: var(--bg-secondary);
   font-weight: 800;
-  font-size: 11px;
+  font-size: 11.5px;
+  padding: 4px 8px;
   color: var(--text-subtle);
-  border-color: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.25);
   white-space: nowrap;
+}
+
+.viz-dp-cell.viz-dp-row-hdr {
+  min-width: 72px;
+  padding: 4px 10px;
+  text-align: center;
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.25);
+  font-size: 11.5px;
 }
 
 .viz-dp-cell.target-cell {

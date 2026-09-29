@@ -4256,7 +4256,7 @@ function computeVisualizerSteps(structure, mode) {
   if (type === "dp") {
     // Mode 1: 0/1 Knapsack Problem (2D Table & Dependency Lookups)
     if (mode === "knapsack_01") {
-      const rowHeaders = ["i=0 (∅)", "i=1 (wt=1, val=1)", "i=2 (wt=3, val=4)", "i=3 (wt=4, val=5)", "i=4 (wt=5, val=7)"];
+      const rowHeaders = ["i=0 (∅)", "i=1 (1, 1)", "i=2 (3, 4)", "i=3 (4, 5)", "i=4 (5, 7)"];
       const colHeaders = ["w=0", "w=1", "w=2", "w=3", "w=4", "w=5", "w=6", "w=7"];
 
       // Initial grid: base row and col 0 are 0, rest null
@@ -6017,14 +6017,16 @@ function drawVisualizerCanvas() {
             <table class="viz-dp-table">
               <thead>
                 <tr>
-                  <th class="viz-dp-cell header"></th>
+                  <th class="viz-dp-cell header viz-dp-row-hdr">i</th>
                   ${colHeaders.map(ch => `<th class="viz-dp-cell header">${escapeHtml(ch)}</th>`).join("")}
                 </tr>
               </thead>
               <tbody>
                 ${grid.map((row, r) => `
                   <tr>
-                    <th class="viz-dp-cell header" style="text-align: right; padding-right: 10px;">${escapeHtml(rowHeaders[r] || `i=${r}`)}</th>
+                    <th class="viz-dp-cell header viz-dp-row-hdr" title="${escapeHtml(rowHeaders[r] || `i=${r}`)}">
+                      <span>${escapeHtml(rowHeaders[r] || `i=${r}`)}</span>
+                    </th>
                     ${row.map((val, c) => {
                       const isTarget = active && active.r === r && active.c === c;
                       const isTop = topCell && topCell.r === r && topCell.c === c;
