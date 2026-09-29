@@ -4352,22 +4352,42 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
 }
 
 /* ==========================================================================
-   Linked List Visualizer Elements
+   Linked List Visualizer Elements (Singly, Doubly, Circular)
    ========================================================================== */
 .viz-list-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
-  flex-wrap: wrap;
-  padding: 12px;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  padding: 16px 20px 22px 20px;
+  max-width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.4) transparent;
+  box-sizing: border-box;
+}
+
+.viz-list-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.viz-list-container::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 9999px;
+}
+
+.viz-list-container::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .viz-list-node-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .viz-list-node {
@@ -4375,40 +4395,62 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
   border-radius: 8px;
   background: var(--bg-card);
   border: 2px solid var(--border-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
   overflow: hidden;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 68px;
 }
 
 .viz-list-node.active {
   border-color: #f59e0b !important;
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.6);
   transform: translateY(-4px) scale(1.08);
 }
 
 .viz-list-node.visited {
   border-color: #10b981 !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.viz-list-node.target {
+  border-color: #ec4899 !important;
+  box-shadow: 0 0 16px rgba(236, 72, 153, 0.55);
+  transform: translateY(-3px) scale(1.06);
+}
+
+.viz-list-node.swapped {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.6);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.viz-list-node.deleted {
+  border-color: #ef4444 !important;
+  opacity: 0.55;
+  text-decoration: line-through;
+  transform: scale(0.92);
 }
 
 .viz-node-data-part {
-  padding: 9px 14px;
+  padding: 10px 14px;
   font-family: var(--font-mono);
   font-size: 13.5px;
   font-weight: 800;
   color: var(--text-main);
-  border-right: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 32px;
   background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-subtle) 100%);
 }
 
 .viz-node-ptr-part {
-  padding: 9px 10px;
+  padding: 10px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
 }
 
 .viz-ptr-dot {
@@ -4426,13 +4468,145 @@ body.theme-light .CodeMirror-hints::-webkit-scrollbar-thumb:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
 }
 
 .viz-list-arrow.reversed {
   transform: rotate(180deg);
   color: #ec4899;
   filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
+}
+
+.viz-null-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-subtle);
+  border: 1px dashed var(--border-color);
+  flex-shrink: 0;
+}
+
+/* --- Doubly Linked List (DLL) Specialization --- */
+.viz-dll-node {
+  display: flex;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 90px;
+}
+
+.viz-dll-node.active {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.6);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.viz-dll-node.swapped {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.6);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.viz-dll-ptr-prev {
+  padding: 10px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(139, 92, 246, 0.12);
+  border-right: 1px solid var(--border-color);
+}
+
+.viz-dll-ptr-prev .viz-ptr-dot {
+  background: #8b5cf6;
+  box-shadow: 0 0 6px #8b5cf6;
+}
+
+.viz-dll-ptr-next {
+  padding: 10px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 182, 212, 0.12);
+  border-left: 1px solid var(--border-color);
+}
+
+.viz-dll-ptr-next .viz-ptr-dot {
+  background: #06b6d4;
+  box-shadow: 0 0 6px #06b6d4;
+}
+
+.viz-dll-arrow {
+  color: #8b5cf6;
+  font-size: 22px;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+  filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.35));
+}
+
+.viz-dll-arrow-sub {
+  font-size: 10px;
+  letter-spacing: -1px;
+  opacity: 0.8;
+}
+
+/* --- Circular Linked List (CLL) Specialization --- */
+.viz-cll-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.viz-cll-return-loop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: calc(100% - 40px);
+  max-width: 650px;
+  margin-top: 6px;
+  padding: 8px 18px;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(99, 102, 241, 0.14) 100%);
+  border: 1.5px dashed #10b981;
+  border-radius: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #10b981;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.15);
+  animation: vizLoopGlow 3s ease-in-out infinite alternate;
+}
+
+.viz-cll-return-loop.broken {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.15);
+  animation: none;
+}
+
+@keyframes vizLoopGlow {
+  0% {
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+  }
+  100% {
+    box-shadow: 0 2px 16px rgba(16, 185, 129, 0.4);
+  }
 }
 
 /* ==========================================================================

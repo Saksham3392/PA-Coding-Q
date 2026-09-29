@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Java build artifacts
+*.class
+*.jar
+TestHarness.class
+Main.class
+
+# Temporary & cache files
+*.tmp
+*.log
+*.bak
+temp/
+tmp/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / IDE files
+.env
+.venv/
+env/
+venv/
+.vscode/
+.idea/

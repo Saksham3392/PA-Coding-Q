@@ -2175,16 +2175,189 @@ function buildModelForProblem(prob) {
     };
   }
 
-  // 5. Linked Lists (Singly, Doubly, Circular)
-  if (cat.includes("linked list") || cat.includes("doubly") || cat.includes("circular linked")) {
+  // 5a. Doubly Linked List
+  if (cat.includes("doubly") || id.includes("doubly") || title.includes("doubly")) {
+    if (id === "q42_swap_two_nodes_of_doubly_linked_list" || title.includes("swap")) {
+      return {
+        type: "doubly_linked_list",
+        title: "Step-by-Step Doubly Linked List: Pointer Rewiring Visualizer",
+        badge: "Doubly Linked List (⇄)",
+        modes: [
+          { id: "dll_swap", label: "Swap Node 3 & Node 5 (Rewiring 8 Adjacent Pointers)" },
+          { id: "dll_traverse", label: "Bidirectional Traversal (Forward via next & Backward via prev)" },
+        ],
+      };
+    }
+    if (id === "q43_rotate_the_doubly_linked_list_by_k_elements" || title.includes("rotate")) {
+      return {
+        type: "doubly_linked_list",
+        title: "Step-by-Step Rotate Doubly Linked List by K Positions",
+        badge: "Doubly Linked List (⇄)",
+        modes: [
+          { id: "dll_rotate", label: "Rotate DLL by K = 2 Positions (Circular Stitch & Detach)" },
+          { id: "dll_traverse", label: "Bidirectional Traversal (Forward via next & Backward via prev)" },
+        ],
+      };
+    }
+    if (id === "q44_rearrange_the_even_odd_nodes_of_doubly_linked_list" || title.includes("even") || title.includes("odd")) {
+      return {
+        type: "doubly_linked_list",
+        title: "Step-by-Step Rearrange Even & Odd Nodes in Doubly Linked List",
+        badge: "Doubly Linked List (⇄)",
+        modes: [
+          { id: "dll_even_odd", label: "Rearrange Odd Indices (1, 3, 5) followed by Even (2, 4)" },
+          { id: "dll_traverse", label: "Bidirectional Traversal (Forward via next & Backward via prev)" },
+        ],
+      };
+    }
     return {
-      type: "linked_list",
-      title: "Step-by-Step Linked List Pointer Manipulation Visualizer",
-      badge: "Linked List",
+      type: "doubly_linked_list",
+      title: "Step-by-Step Doubly Linked List Pointer Manipulation Visualizer",
+      badge: "Doubly Linked List (⇄)",
       modes: [
-        { id: "reverse_list", label: "In-Place Reversal (prev, curr, next Pointers)" },
-        { id: "middle_node", label: "Find Middle Element (Slow & Fast Pointers)" },
-        { id: "detect_cycle", label: "Floyd's Cycle Detection (Tortoise & Hare)" },
+        { id: "dll_traverse", label: "Bidirectional Traversal (Forward via next & Backward via prev)" },
+        { id: "dll_swap", label: "Swap Two Nodes (Pointer Rewiring)" },
+        { id: "dll_rotate", label: "Rotate DLL by K Positions" },
+      ],
+    };
+  }
+
+  // 5b. Circular Linked List
+  if (cat.includes("circular linked") || id.includes("circular") || title.includes("circular")) {
+    if (id === "q45_given_list_is_circular_or_not" || title.includes("circular or not")) {
+      return {
+        type: "circular_linked_list",
+        title: "Step-by-Step Verify Circular vs Linear Linked List",
+        badge: "Circular Linked List (↺)",
+        modes: [
+          { id: "cll_verify_yes", label: "Case 1: Circular List (last.next loops to head → Return 1)" },
+          { id: "cll_verify_no", label: "Case 2: Non-Circular List (curr reaches null ∅ → Return 0)" },
+          { id: "cll_traverse", label: "Full Circular Loop Traversal (do-while)" },
+        ],
+      };
+    }
+    if (id === "q46_insert_nodes_in_a_circular_linked_list" || id === "q49_insert_in_a_sorted_circular_linked_list" || title.includes("insert")) {
+      return {
+        type: "circular_linked_list",
+        title: "Step-by-Step Insert Node in Circular Linked List",
+        badge: "Circular Linked List (↺)",
+        modes: [
+          { id: "cll_insert", label: "Insert at Beginning (Find Last Node & Update head / last.next)" },
+          { id: "cll_traverse", label: "Full Circular Loop Traversal" },
+        ],
+      };
+    }
+    if (id === "q47_delete_in_circular_linked_list" || title.includes("delete in circular")) {
+      return {
+        type: "circular_linked_list",
+        title: "Step-by-Step Delete Node from Circular Linked List",
+        badge: "Circular Linked List (↺)",
+        modes: [
+          { id: "cll_delete", label: "Delete Node (Bridge prev.next = curr.next & preserve loop)" },
+          { id: "cll_traverse", label: "Full Circular Loop Traversal" },
+        ],
+      };
+    }
+    if (id === "q48_count_the_number_of_nodes_in_circular_linked_list" || title.includes("count the number of nodes")) {
+      return {
+        type: "circular_linked_list",
+        title: "Step-by-Step Count Nodes in Circular Linked List",
+        badge: "Circular Linked List (↺)",
+        modes: [
+          { id: "cll_count", label: "Count Nodes via do-while loop (curr.next != head)" },
+          { id: "cll_traverse", label: "Full Circular Loop Traversal" },
+        ],
+      };
+    }
+    if (id === "q50_split_the_circular_linked_list_in_two_parts" || title.includes("split")) {
+      return {
+        type: "circular_linked_list",
+        title: "Step-by-Step Split Circular Linked List into Two Halves",
+        badge: "Circular Linked List (↺)",
+        modes: [
+          { id: "cll_split", label: "Split into 2 Halves (Slow & Fast Tortoise-Hare to form 2 Circular Lists)" },
+          { id: "cll_traverse", label: "Full Circular Loop Traversal" },
+        ],
+      };
+    }
+    return {
+      type: "circular_linked_list",
+      title: "Step-by-Step Circular Linked List Loop Visualizer",
+      badge: "Circular Linked List (↺)",
+      modes: [
+        { id: "cll_traverse", label: "Full Circular Loop Traversal (do-while)" },
+        { id: "cll_verify_yes", label: "Verify Circular Loop (last.next == head)" },
+        { id: "cll_count", label: "Count Number of Nodes" },
+      ],
+    };
+  }
+
+  // 5c. Singly Linked List
+  if (cat.includes("linked list") || id.includes("linked_list") || title.includes("list")) {
+    if (id === "q34_print_the_list" || title.includes("print the list")) {
+      return {
+        type: "singly_linked_list",
+        title: "Step-by-Step Forward & Backward Recursive Print Visualizer",
+        badge: "Singly Linked List (→)",
+        modes: [
+          { id: "sll_print_both", label: "Forward Iteration + Recursive Backward Print (Call Stack)" },
+          { id: "sll_traverse", label: "Standard Forward Traversal" },
+        ],
+      };
+    }
+    if (id === "q37_check_list_for_palindrome" || title.includes("palindrome")) {
+      return {
+        type: "singly_linked_list",
+        title: "Step-by-Step Linked List Palindrome Visualizer",
+        badge: "Singly Linked List (→)",
+        modes: [
+          { id: "sll_palindrome", label: "Palindrome Check: Middle → Reverse 2nd Half → Compare" },
+          { id: "sll_reverse", label: "In-Place Reversal (prev, curr, next)" },
+        ],
+      };
+    }
+    if (id === "q38_find_the_loop_in_linked_list" || title.includes("loop")) {
+      return {
+        type: "singly_linked_list",
+        title: "Step-by-Step Floyd's Cycle Detection Visualizer",
+        badge: "Singly Linked List (→)",
+        modes: [
+          { id: "sll_loop_detect", label: "Floyd's Tortoise & Hare (slow +1, fast +2 Collision)" },
+          { id: "sll_middle", label: "Find Middle Element (Slow & Fast Pointers)" },
+        ],
+      };
+    }
+    if (id === "q41_delete_a_node_in_linked_list_given_access_to_only_that_node" || title.includes("delete a node")) {
+      return {
+        type: "singly_linked_list",
+        title: "Step-by-Step O(1) Node Deletion Without Head Pointer",
+        badge: "Singly Linked List (→)",
+        modes: [
+          { id: "sll_delete_node", label: "O(1) Trick: Copy curr.next.data & bypass curr.next" },
+          { id: "sll_traverse", label: "Standard Forward Traversal" },
+        ],
+      };
+    }
+    if (id === "q39_reverse_a_linked_list" || title.includes("reverse")) {
+      return {
+        type: "singly_linked_list",
+        title: "Step-by-Step In-Place Linked List Pointer Reversal",
+        badge: "Singly Linked List (→)",
+        modes: [
+          { id: "sll_reverse", label: "In-Place Reversal: prev, curr, next Pointer Redirection" },
+          { id: "sll_middle", label: "Find Middle Element (Slow & Fast Pointers)" },
+        ],
+      };
+    }
+    return {
+      type: "singly_linked_list",
+      title: "Step-by-Step Singly Linked List Pointer Manipulation Visualizer",
+      badge: "Singly Linked List (→)",
+      modes: [
+        { id: "sll_reverse", label: "In-Place Reversal (prev, curr, next Pointers)" },
+        { id: "sll_middle", label: "Find Middle Element (Slow & Fast Pointers)" },
+        { id: "sll_loop_detect", label: "Floyd's Cycle Detection (Tortoise & Hare)" },
+        { id: "sll_traverse", label: "Standard Traversal (curr = curr.next)" },
       ],
     };
   }
@@ -2766,98 +2939,916 @@ function computeVisualizerSteps(structure, mode) {
     }
   }
 
-  // 4. Linked Lists
-  if (type === "linked_list") {
-    const listNodes = [
-      { id: 0, val: 10 },
-      { id: 1, val: 20 },
-      { id: 2, val: 30 },
-      { id: 3, val: 40 },
-    ];
-    if (mode === "reverse_list") {
+  // 4a. Doubly Linked List Step Generators
+  if (type === "doubly_linked_list") {
+    if (mode === "dll_swap") {
+      const nodes0 = [
+        { id: 0, val: 1 }, { id: 1, val: 2 }, { id: 2, val: 3 }, { id: 3, val: 4 }, { id: 4, val: 5 }
+      ];
+      const nodesFinal = [
+        { id: 0, val: 1 }, { id: 1, val: 2 }, { id: 4, val: 5 }, { id: 3, val: 4 }, { id: 2, val: 3 }
+      ];
       return [
         {
-          title: "Initial Linked List: 10 → 20 → 30 → 40 → null",
-          note: "Use 3 pointers: prev = null, curr = head (10), next = null.",
+          title: "Initial DLL: Swap Node 3 and Node 5 without swapping data",
+          note: "Target: Swap Node with value 3 (nodeA) and Node with value 5 (nodeB) in-place by rewiring 8 adjacent prev/next pointers.",
+          vars: { Head: "1", nodeA: "3 (idx 2)", nodeB: "5 (idx 4)", Tail: "5" },
+          nodes: nodes0,
+          pointers: { head: 0, "nodeA(3)": 2, "nodeB(5)": 4, tail: 4 },
+          targetNodes: [2, 4],
+        },
+        {
+          title: "Step 1: Cache Adjacent Pointers for Node 3 and Node 5",
+          note: "nodeA=3: prevA=2, nextA=4. nodeB=5: prevB=4, nextB=null. Storing neighboring references ensures no node is orphaned during disconnection.",
+          vars: { prevA: "2", nodeA: "3", nextA: "4", prevB: "4", nodeB: "5", nextB: "null" },
+          nodes: nodes0,
+          pointers: { prevA: 1, nodeA: 2, nextA: 3, prevB: 3, nodeB: 4 },
+          targetNodes: [2, 4],
+        },
+        {
+          title: "Step 2: Connect prevA (Node 2) to nodeB (Node 5)",
+          note: "prevA.next = nodeB (Node 2's next pointer now points to Node 5). nodeB.prev = prevA (Node 5's prev pointer points back to Node 2).",
+          vars: { "2.next": "5", "5.prev": "2", Status: "Left neighbor rewired" },
+          nodes: nodes0,
+          pointers: { prevA: 1, nodeB: 4 },
+          targetNodes: [4],
+        },
+        {
+          title: "Step 3: Connect prevB (Node 4) to nodeA (Node 3)",
+          note: "prevB.next = nodeA (Node 4's next pointer now points to Node 3). nodeA.prev = prevB (Node 3's prev pointer points back to Node 4).",
+          vars: { "4.next": "3", "3.prev": "4", Status: "Middle neighbor rewired" },
+          nodes: nodes0,
+          pointers: { prevB: 3, nodeA: 2 },
+          targetNodes: [2],
+        },
+        {
+          title: "Step 4: Connect nodeB (5) to nextA (4) & nodeA (3) to nextB (null)",
+          note: "nodeB.next = nextA (5 → 4); nextA.prev = nodeB (4 ← 5). nodeA.next = nextB (3 → null); (if nextB != null) nextB.prev = nodeA.",
+          vars: { "5.next": "4", "4.prev": "5", "3.next": "null (new tail)", Pointers_Updated: 8 },
+          nodes: nodesFinal,
+          pointers: { head: 0, nodeB: 2, nextA: 3, nodeA: 4, tail: 4 },
+          swappedNodes: [2, 4],
+        },
+        {
+          title: "Step 5: Pointer Swap Complete! (0 Data Value Swaps)",
+          note: "✓ Successfully rewired all 8 adjacent pointers. The node objects themselves moved positions without changing node.data fields!",
+          vars: { Result: "1 ⇄ 2 ⇄ 5 ⇄ 4 ⇄ 3", Head: "1", Tail: "3", Time: "O(1) Rewiring" },
+          nodes: nodesFinal,
+          pointers: { head: 0, swapped: 2, tail: 4 },
+          swappedNodes: [2, 4],
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "dll_rotate") {
+      const nodes0 = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      const nodesRotated = [
+        { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }, { id: 0, val: 10 }, { id: 1, val: 20 }
+      ];
+      return [
+        {
+          title: "Initial DLL: Rotate by K = 2 Positions",
+          note: "Goal: Rotate doubly linked list clockwise by K=2 positions. Nodes [10, 20] will move to the tail, making [30] the new head.",
+          vars: { Head: "10", K: 2, Length: 5, Tail: "50" },
+          nodes: nodes0,
+          pointers: { head: 0, tail: 4 },
+        },
+        {
+          title: "Step 1: Traverse to Find Current Tail (Node 50)",
+          note: "Scan list using curr = curr.next until curr.next == null. Tail is Node 50 at index 4.",
+          vars: { curr: "50 (tail)", "curr.next": "null" },
+          nodes: nodes0,
+          pointers: { head: 0, tail: 4, curr: 4 },
+        },
+        {
+          title: "Step 2: Connect Tail to Head (Form Temporary Circular Ring)",
+          note: "tail.next = head (50 → 10); head.prev = tail (10 ← 50). The DLL is now temporarily closed into a circle.",
+          vars: { "50.next": "10 (head)", "10.prev": "50 (tail)", Shape: "Circular DLL Ring" },
+          nodes: nodes0,
+          pointers: { head: 0, tail: 4 },
+          activeIdx: 4,
+        },
+        {
+          title: "Step 3: Move K=2 Steps from Head to Find New Tail",
+          note: "Traverse K=2 nodes: Step 1 → Node 10, Step 2 → Node 20. Node 20 becomes the newTail. New head will be newTail.next (Node 30).",
+          vars: { K: 2, newTail: "20 (idx 1)", newHead: "30 (idx 2)" },
+          nodes: nodes0,
+          pointers: { newTail: 1, newHead: 2 },
+          targetNodes: [1, 2],
+        },
+        {
+          title: "Step 4: Break the Ring (Sever newTail.next and newHead.prev)",
+          note: "newHead = newTail.next (30); newTail.next = null; newHead.prev = null. Ring is cleanly broken at Node 20.",
+          vars: { "20.next": "null", "30.prev": "null", NewHead: "30", NewTail: "20" },
+          nodes: nodesRotated,
+          pointers: { head: 0, tail: 4 },
+          activeIdx: 0,
+        },
+        {
+          title: "Step 5: Rotated DLL Complete! (O(N) Time, O(1) Space)",
+          note: "✓ Final Doubly Linked List after K=2 rotation: null ← [30] ⇄ [40] ⇄ [50] ⇄ [10] ⇄ [20] → null.",
+          vars: { Head: "30", Tail: "20", Order: "30, 40, 50, 10, 20", Status: "Completed ✓" },
+          nodes: nodesRotated,
+          pointers: { head: 0, tail: 4 },
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "dll_even_odd") {
+      const nodes0 = [
+        { id: 0, val: 1 }, { id: 1, val: 2 }, { id: 2, val: 3 }, { id: 3, val: 4 }, { id: 4, val: 5 }
+      ];
+      const nodesRearranged = [
+        { id: 0, val: 1 }, { id: 2, val: 3 }, { id: 4, val: 5 }, { id: 1, val: 2 }, { id: 3, val: 4 }
+      ];
+      return [
+        {
+          title: "Initial DLL: Rearrange Odd-Positioned and Even-Positioned Nodes",
+          note: "Group all odd-indexed nodes (1st, 3rd, 5th: [1, 3, 5]) together followed by even-indexed nodes (2nd, 4th: [2, 4]).",
+          vars: { Head: "1", Odd_Nodes: "1, 3, 5", Even_Nodes: "2, 4" },
+          nodes: nodes0,
+          pointers: { odd: 0, even: 1, head: 0 },
+        },
+        {
+          title: "Step 1: Link Odd 1 → 3 and Even 2 → 4",
+          note: "odd.next = 3; 3.prev = 1; advance odd = 3. even.next = 4; 4.prev = 2; advance even = 4.",
+          vars: { odd: "3", even: "4", "1.next": "3", "2.next": "4" },
+          nodes: nodes0,
+          pointers: { odd: 2, even: 3 },
+          targetNodes: [2, 3],
+        },
+        {
+          title: "Step 2: Link Odd 3 → 5 and Terminate Even 4 → null",
+          note: "odd.next = 5; 5.prev = 3; advance odd = 5. even.next = null (even chain ends).",
+          vars: { odd: "5", "odd.next": "5", "even.next": "null", OddTail: "5" },
+          nodes: nodes0,
+          pointers: { odd: 4, even: 3 },
+          targetNodes: [4],
+        },
+        {
+          title: "Step 3: Connect Odd Tail (5) to Even Head (2)",
+          note: "odd.next = evenHead (5 → 2); evenHead.prev = odd (2 ← 5). Both chains are stitched into one seamless DLL.",
+          vars: { "5.next": "2", "2.prev": "5", Joined: "Odd Tail to Even Head" },
+          nodes: nodesRearranged,
+          pointers: { head: 0, join: 3, tail: 4 },
+          swappedNodes: [1, 2],
+        },
+        {
+          title: "Step 4: Rearrangement Complete! (O(N) Time, O(1) Space)",
+          note: "✓ Final Doubly Linked List: null ← [1] ⇄ [3] ⇄ [5] ⇄ [2] ⇄ [4] → null.",
+          vars: { Head: "1", Order: "1, 3, 5, 2, 4", Status: "Completed ✓" },
+          nodes: nodesRearranged,
+          pointers: { head: 0, tail: 4 },
+          completed: true,
+        },
+      ];
+    }
+
+    // Default dll_traverse
+    const nodes = [
+      { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+    ];
+    return [
+      {
+        title: "Doubly Linked List: Bidirectional Structure",
+        note: "Each node holds data, a purple prev pointer (←), and a cyan next pointer (→). Can be traversed in both directions.",
+        vars: { Head: "10", Length: 5, "head.prev": "null", "tail.next": "null" },
+        nodes,
+        pointers: { head: 0, tail: 4 },
+      },
+      {
+        title: "Forward Traversal: curr = head (10)",
+        note: "Inspecting Node 10. Node.prev is null (Head boundary). Advance via curr = curr.next.",
+        vars: { curr: "10", Direction: "Forward (next →)", "curr.next": "20" },
+        nodes,
+        pointers: { curr: 0, head: 0 },
+        activeIdx: 0,
+      },
+      {
+        title: "Forward Traversal: curr = 20 → 30 → 40",
+        note: "Moving forward through the chain. At Node 30: prev points back to 20, next points forward to 40.",
+        vars: { curr: "30", "30.prev": "20", "30.next": "40" },
+        nodes,
+        pointers: { curr: 2 },
+        activeIdx: 2,
+      },
+      {
+        title: "Forward Traversal Reaches Tail: Node 50",
+        note: "curr.next is null! Tail reached. Now demonstrating backward traversal via prev pointers.",
+        vars: { curr: "50 (tail)", "curr.next": "null (End)" },
+        nodes,
+        pointers: { curr: 4, tail: 4 },
+        activeIdx: 4,
+      },
+      {
+        title: "Backward Traversal: curr = curr.prev (Node 40)",
+        note: "Moving backward: curr = 50.prev = 40. Doubly linked lists allow O(1) backward navigation!",
+        vars: { curr: "40", Direction: "Backward (← prev)", "curr.prev": "30" },
+        nodes,
+        pointers: { curr: 3 },
+        activeIdx: 3,
+      },
+      {
+        title: "Bidirectional Traversal Complete ✓",
+        note: "✓ Doubly Linked List verified: can be navigated seamlessly in both forward and backward directions.",
+        vars: { Status: "Bidirectional Traversal Verified ✓" },
+        nodes,
+        pointers: { head: 0, tail: 4 },
+        completed: true,
+      },
+    ];
+  }
+
+  // 4b. Circular Linked List Step Generators
+  if (type === "circular_linked_list") {
+    if (mode === "cll_verify_yes") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      return [
+        {
+          title: "Circular List Verification: Check if List is Circular",
+          note: "Algorithm: Start with curr = head.next. Traverse while curr != null && curr != head. If curr == head, the list is circular (return 1).",
+          vars: { head: "10 (Node 0)", "curr = head.next": "20 (Node 1)", LoopCondition: "curr != null && curr != head" },
+          nodes,
+          pointers: { head: 0, curr: 1 },
+          activeIdx: 1,
+          loopText: "last.next (40) points back to Head (10) ↺",
+        },
+        {
+          title: "Step 1: Inspect curr = Node 1 (val 20)",
+          note: "curr != null (20 != null) is true; curr != head (20 != 10) is true. Advance curr = curr.next (30).",
+          vars: { curr: "20", "curr == head": "false", "curr.next": "30" },
+          nodes,
+          pointers: { head: 0, curr: 2 },
+          activeIdx: 2,
+          loopText: "last.next (40) points back to Head (10) ↺",
+        },
+        {
+          title: "Step 2: Inspect curr = Node 2 (val 30)",
+          note: "curr != null (30 != null) is true; curr != head (30 != 10) is true. Advance curr = curr.next (40).",
+          vars: { curr: "30", "curr == head": "false", "curr.next": "40" },
+          nodes,
+          pointers: { head: 0, curr: 3 },
+          activeIdx: 3,
+          loopText: "last.next (40) points back to Head (10) ↺",
+        },
+        {
+          title: "Step 3: Inspect curr = Node 3 (val 40, Last Node)",
+          note: "curr is at Node 40. Inspect curr.next: 40.next loops back to Node 0 (head = 10)! Advance curr = curr.next (10).",
+          vars: { curr: "40", "40.next": "10 (head)", Advance: "curr = head" },
+          nodes,
+          pointers: { head: 0, curr: 0 },
+          activeIdx: 0,
+          loopText: "↺ Traversed back to Head (Node 0)!",
+        },
+        {
+          title: "Step 4: Condition (curr == head) is TRUE!",
+          note: "curr has cycled back to head (10 == 10)! The while (curr != null && curr != head) loop terminates because curr == head.",
+          vars: { curr: "10", head: "10", "curr == head": "TRUE ✓", ExitReason: "Cycled to Head" },
+          nodes,
+          pointers: { "head==curr": 0 },
+          activeIdx: 0,
+          loopText: "✓ Cycle Confirmed: curr cycled back to head",
+        },
+        {
+          title: "Result: return 1 (List IS Circular ✓)",
+          note: "✓ Successfully verified! The list contains no null pointer and continuously cycles back to head. Result: 1.",
+          vars: { ReturnValue: 1, IsCircular: "True ✓", TimeComplexity: "O(N)", SpaceComplexity: "O(1)" },
+          nodes,
+          pointers: { head: 0 },
+          completed: true,
+          loopText: "✓ Return 1: Circular Linked List Verified",
+        },
+      ];
+    }
+
+    if (mode === "cll_verify_no") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      return [
+        {
+          title: "Check Non-Circular / Linear List: Start at head",
+          note: "Algorithm: Start with curr = head.next. If curr encounters null before returning to head, list is linear (return 0).",
+          vars: { head: "10", curr: "20", Expected: "Linear list ending at null" },
+          nodes,
+          pointers: { head: 0, curr: 1 },
+          activeIdx: 1,
+          isBroken: true,
+          loopText: "Testing Linear List (ends at null ∅)",
+        },
+        {
+          title: "Step 1: Traverse through nodes 20, 30 to Node 40",
+          note: "curr advances through Node 20 and Node 30. Neither equals head, and neither is null.",
+          vars: { curr: "40", "curr == head": "false", "40.next": "null ∅" },
+          nodes,
+          pointers: { head: 0, curr: 3 },
+          activeIdx: 3,
+          isBroken: true,
+          loopText: "Node 40.next is NULL ∅ (No cycle back to head)",
+        },
+        {
+          title: "Step 2: curr reaches NULL (curr = 40.next = null)",
+          note: "At Node 40, curr.next is null! curr becomes null. The while loop (curr != null && curr != head) terminates!",
+          vars: { curr: "null", "curr == null": "TRUE ✗", "curr == head": "false" },
+          nodes,
+          pointers: { head: 0 },
+          isBroken: true,
+          loopText: "✕ Terminated at NULL: Loop condition broken",
+        },
+        {
+          title: "Result: return 0 (List is NOT Circular ✗)",
+          note: "✓ Loop terminated because curr became null. No cycle to head exists. Function returns 0.",
+          vars: { ReturnValue: 0, IsCircular: "False ✗", Result: "Linear List Terminating at NULL" },
+          nodes,
+          pointers: { head: 0 },
+          completed: true,
+          isBroken: true,
+          loopText: "✕ Return 0: Not Circular (Terminated at NULL)",
+        },
+      ];
+    }
+
+    if (mode === "cll_insert") {
+      const nodes0 = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      const nodesFinal = [
+        { id: 4, val: 5 }, { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      return [
+        {
+          title: "Insert Node 5 at Beginning of Circular Linked List",
+          note: "In a circular list, inserting at the head requires also updating the last node's next pointer so it points to the new head!",
+          vars: { Head: "10", NewVal: 5, CurrentList: "10 → 20 → 30 → 40 ↺ 10" },
+          nodes: nodes0,
+          pointers: { head: 0 },
+          loopText: "last.next (40) points back to Head (10) ↺",
+        },
+        {
+          title: "Step 1: Traverse to Find the Last Node (curr.next == head)",
+          note: "curr starts at head (10) and advances until curr.next == head. Reaches Node 40 (last node).",
+          vars: { curr: "40", "curr.next": "10 (head)", LastNode: "40" },
+          nodes: nodes0,
+          pointers: { head: 0, last: 3 },
+          activeIdx: 3,
+          loopText: "Last node identified: Node 40",
+        },
+        {
+          title: "Step 2: Allocate newNode(5) & Point newNode.next = head (10)",
+          note: "newNode = new Node(5); newNode.next = head (10). New node now points to the old head.",
+          vars: { "newNode.val": 5, "newNode.next": "10 (old head)" },
+          nodes: nodes0,
+          pointers: { head: 0, last: 3 },
+          loopText: "newNode (5) points forward to old head (10)",
+        },
+        {
+          title: "Step 3: Point last.next = newNode (5)",
+          note: "last.next = newNode (40 → 5). The circular return path now directs into newNode(5).",
+          vars: { "last.next": "5 (newNode)", CircularPath: "40 → 5" },
+          nodes: nodesFinal,
+          pointers: { newNode: 0, oldHead: 1, last: 4 },
+          targetNodes: [0],
+          loopText: "last.next (40) now points to newNode (5) ↺",
+        },
+        {
+          title: "Step 4: Update head = newNode (5)",
+          note: "head = newNode (5). Node 5 is officially the new head of the Circular Linked List!",
+          vars: { NewHead: "5", FinalOrder: "5 → 10 → 20 → 30 → 40 ↺ 5", Status: "Complete ✓" },
+          nodes: nodesFinal,
+          pointers: { head: 0, last: 4 },
+          swappedNodes: [0],
+          completed: true,
+          loopText: "✓ Circular Loop Restored: 40.next → Head (5)",
+        },
+      ];
+    }
+
+    if (mode === "cll_count") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      return [
+        {
+          title: "Count Nodes in Circular Linked List: Initialize",
+          note: "Algorithm: int count = 0; Node curr = head; do { count++; curr = curr.next; } while (curr != head); return count;",
+          vars: { count: 0, curr: "10 (head)", head: "10" },
+          nodes,
+          pointers: { head: 0, curr: 0 },
+          activeIdx: 0,
+          loopText: "Circular Loop: 40.next → Head (10) ↺",
+        },
+        {
+          title: "Iteration 1: Visit Node 10 → count = 1",
+          note: "count increments to 1. curr advances to curr.next (20). Check condition: curr != head (20 != 10) is true.",
+          vars: { count: 1, curr: "20", "curr != head": "true" },
+          nodes,
+          pointers: { head: 0, curr: 1 },
+          activeIdx: 1,
+          loopText: "Count = 1 | curr at Node 1 (20)",
+        },
+        {
+          title: "Iteration 2: Visit Node 20 → count = 2",
+          note: "count increments to 2. curr advances to curr.next (30). Check condition: curr != head (30 != 10) is true.",
+          vars: { count: 2, curr: "30", "curr != head": "true" },
+          nodes,
+          pointers: { head: 0, curr: 2 },
+          activeIdx: 2,
+          loopText: "Count = 2 | curr at Node 2 (30)",
+        },
+        {
+          title: "Iteration 3: Visit Node 30 → count = 3",
+          note: "count increments to 3. curr advances to curr.next (40). Check condition: curr != head (40 != 10) is true.",
+          vars: { count: 3, curr: "40", "curr != head": "true" },
+          nodes,
+          pointers: { head: 0, curr: 3 },
+          activeIdx: 3,
+          loopText: "Count = 3 | curr at Node 3 (40)",
+        },
+        {
+          title: "Iteration 4: Visit Node 40 → count = 4",
+          note: "count increments to 4. curr advances to curr.next (10 = head). Check condition: curr != head (10 != 10) is FALSE! do-while loop ends.",
+          vars: { count: 4, curr: "10 (head)", "curr != head": "FALSE (Loop Terminates)" },
+          nodes,
+          pointers: { head: 0, curr: 0 },
+          activeIdx: 0,
+          loopText: "Loop Terminated: curr wrapped around to head",
+        },
+        {
+          title: "Counting Complete: return 4",
+          note: "✓ All 4 nodes visited in single circular pass without infinite looping! Return count = 4.",
+          vars: { TotalNodes: 4, Complexity: "O(N) Time, O(1) Space", Status: "Completed ✓" },
+          nodes,
+          pointers: { head: 0 },
+          completed: true,
+          loopText: "✓ Total Count: 4 Nodes in Circular List",
+        },
+      ];
+    }
+
+    if (mode === "cll_split") {
+      const nodes0 = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+      ];
+      return [
+        {
+          title: "Split Circular Linked List into Two Halves",
+          note: "Goal: Split circular list [10 → 20 → 30 → 40 ↺ 10] into two circular sub-lists: List 1 [10 → 20 ↺ 10] and List 2 [30 → 40 ↺ 30].",
+          vars: { Head: "10", Elements: 4, Target: "2 Circular Halves of size 2" },
+          nodes: nodes0,
+          pointers: { head: 0 },
+          loopText: "Original List: 40.next → Head (10) ↺",
+        },
+        {
+          title: "Step 1: Floyd's Tortoise & Hare to Find Midpoint",
+          note: "slow moves 1 step; fast moves 2 steps until fast.next == head || fast.next.next == head. slow lands on Node 20 (midpoint).",
+          vars: { slow: "20 (mid)", fast: "40 (tail)", "fast.next.next": "head" },
+          nodes: nodes0,
+          pointers: { head: 0, slow: 1, fast: 3 },
+          targetNodes: [1, 3],
+          loopText: "slow at Midpoint (Node 20), fast at End (Node 40)",
+        },
+        {
+          title: "Step 2: Set head1 = head (10) & head2 = slow.next (30)",
+          note: "head1 = head (10). head2 = slow.next (30). Both sub-list entry points established.",
+          vars: { head1: "10", head2: "30", Midpoint: "20" },
+          nodes: nodes0,
+          pointers: { head1: 0, slow: 1, head2: 2, fast: 3 },
+          loopText: "head1 = 10, head2 = 30",
+        },
+        {
+          title: "Step 3: Close List 1 Loop: slow.next = head1 (20 → 10)",
+          note: "slow.next = head1 (20.next = 10). First half is now an independent circular linked list!",
+          vars: { "slow.next": "10 (head1)", List1: "10 → 20 ↺ 10" },
+          nodes: nodes0,
+          pointers: { head1: 0, slow: 1 },
+          targetNodes: [0, 1],
+          loopText: "Sub-list 1 Circular Loop: 20.next → 10 ↺",
+        },
+        {
+          title: "Step 4: Close List 2 Loop: fast.next = head2 (40 → 30)",
+          note: "fast.next = head2 (40.next = 30). Second half is now also an independent circular linked list!",
+          vars: { "fast.next": "30 (head2)", List2: "30 → 40 ↺ 30" },
+          nodes: nodes0,
+          pointers: { head2: 2, fast: 3 },
+          targetNodes: [2, 3],
+          loopText: "Sub-list 2 Circular Loop: 40.next → 30 ↺",
+        },
+        {
+          title: "Splitting Complete! (Two Valid Circular Lists Formed)",
+          note: "✓ Successfully split in O(N) time and O(1) space. Head 1 = Node 10 (size 2), Head 2 = Node 30 (size 2).",
+          vars: { Head1: "10 (10 → 20 ↺)", Head2: "30 (30 → 40 ↺)", Status: "Completed ✓" },
+          nodes: nodes0,
+          pointers: { head1: 0, head2: 2 },
+          completed: true,
+          loopText: "✓ Both halves are closed circular lists",
+        },
+      ];
+    }
+
+    // Default cll_traverse
+    const nodes = [
+      { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }
+    ];
+    return [
+      {
+        title: "Circular Linked List: Loop Topology",
+        note: "In a circular linked list, the tail's next pointer references head rather than null. All nodes form an unbroken cycle.",
+        vars: { Head: "10", Tail: "40", "tail.next": "10 (head)", Loop: "Closed Cycle" },
+        nodes,
+        pointers: { head: 0, tail: 3 },
+        loopText: "last.next (40) points back to Head (10) ↺",
+      },
+      {
+        title: "Traverse: Visit Node 0 (10)",
+        note: "curr = head (10). Inspecting data.",
+        vars: { curr: "10", "curr.next": "20" },
+        nodes,
+        pointers: { curr: 0, head: 0 },
+        activeIdx: 0,
+        loopText: "Traversing Circular Chain: curr = 10",
+      },
+      {
+        title: "Traverse: Visit Node 1 (20) & Node 2 (30)",
+        note: "curr advances forward through the ring.",
+        vars: { curr: "30", "curr.next": "40" },
+        nodes,
+        pointers: { curr: 2 },
+        activeIdx: 2,
+        loopText: "Traversing Circular Chain: curr = 30",
+      },
+      {
+        title: "Traverse: Visit Node 3 (40) → Cycles to Head!",
+        note: "curr is at tail (40). curr.next brings us back to Node 0 (head = 10)! The circular loop is complete.",
+        vars: { curr: "40", "curr.next": "10 (head)", Status: "Cycle Confirmed" },
+        nodes,
+        pointers: { curr: 3, head: 0 },
+        activeIdx: 3,
+        loopText: "↺ 40.next cycles seamlessly back to Head (10)",
+      },
+      {
+        title: "Circular Traversal Complete ✓",
+        note: "✓ Successfully cycled through entire circular list and returned to origin head.",
+        vars: { Status: "Completed ✓" },
+        nodes,
+        pointers: { head: 0 },
+        completed: true,
+        loopText: "✓ Complete Circular Cycle",
+      },
+    ];
+  }
+
+  // 4c. Singly Linked List Step Generators (and backward compatibility for 'linked_list')
+  if (type === "singly_linked_list" || type === "linked_list") {
+    if (mode === "sll_print_both") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      return [
+        {
+          title: "Print the List: Forward Iterative & Backward Recursive Print",
+          note: "Q34 requires printing the singly linked list in both forward order (10 20 30 40 50) and backward order (50 40 30 20 10) using recursion.",
+          vars: { Head: "10", Length: 5, ForwardOutput: '""', BackwardOutput: '""' },
+          nodes,
+          pointers: { head: 0 },
+        },
+        {
+          title: "Forward Print: Iterate from head to null",
+          note: "while (curr != null) { print(curr.data + ' '); curr = curr.next; }. Prints elements in order: 10 20 30 40 50.",
+          vars: { curr: "10..50", ForwardPrinted: "10 20 30 40 50", Status: "Forward Complete" },
+          nodes,
+          pointers: { curr: 4, head: 0 },
+          activeIdx: 4,
+          callStack: ["printForward(head)"],
+        },
+        {
+          title: "Backward Print: Recursive Call Stack Push",
+          note: "void printReverse(Node head) { if (head == null) return; printReverse(head.next); print(head.data + ' '); } Each call is pushed onto the JVM call stack.",
+          vars: { StackDepth: 5, TopOfStack: "printReverse(50)" },
+          nodes,
+          pointers: { head: 0, curr: 4 },
+          callStack: [
+            "printReverse(10)",
+            "  printReverse(20)",
+            "    printReverse(30)",
+            "      printReverse(40)",
+            "        printReverse(50) ← Base case reached (50.next == null)"
+          ],
+        },
+        {
+          title: "Unwinding Stack: Pop printReverse(50) → Prints '50'",
+          note: "Base case returns. Call frame for Node 50 executes print(head.data) → prints '50'.",
+          vars: { Printed: "50", StackDepth: 4 },
+          nodes,
+          pointers: { curr: 4 },
+          activeIdx: 4,
+          callStack: ["printReverse(10)", "  printReverse(20)", "    printReverse(30)", "      printReverse(40)"],
+        },
+        {
+          title: "Unwinding Stack: Pop printReverse(40, 30, 20, 10)",
+          note: "Frames pop in reverse LIFO order: prints '40', then '30', then '20', then '10'.",
+          vars: { BackwardPrinted: "50 40 30 20 10", Status: "Stack Empty" },
+          nodes,
+          pointers: { head: 0 },
+          activeIdx: 0,
+          callStack: ["[Stack Empty: All frames resolved]"],
+        },
+        {
+          title: "Both Prints Completed Successfully ✓",
+          note: "✓ Forward output: '10 20 30 40 50'. Backward output: '50 40 30 20 10'.",
+          vars: { Forward: "10 20 30 40 50", Backward: "50 40 30 20 10", Status: "Completed ✓" },
+          nodes,
+          pointers: { head: 0 },
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "sll_delete_node") {
+      const nodes0 = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      const nodesAfterCopy = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 40 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      const nodesFinal = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 40 }, { id: 4, val: 50 }
+      ];
+      return [
+        {
+          title: "Delete Node in Linked List Given Access to ONLY That Node",
+          note: "Target: Delete Node 30 (nodeToDelete). Constraint: No access to head pointer! Cannot find previous node via backward traversal in a singly linked list.",
+          vars: { TargetNode: "30 (idx 2)", HeadAccess: "NO", Requirement: "O(1) In-Place Deletion" },
+          nodes: nodes0,
+          pointers: { nodeToDelete: 2 },
+          targetNodes: [2],
+        },
+        {
+          title: "Step 1: Copy Data from Next Node into Target Node",
+          note: "node.data = node.next.data (Copy 40 into Node 30's data box). Node 30 now holds 40!",
+          vars: { "node.data": 40, CopiedFrom: "node.next (40)" },
+          nodes: nodesAfterCopy,
+          pointers: { node: 2, "node.next": 3 },
+          targetNodes: [2],
+          activeIdx: 2,
+        },
+        {
+          title: "Step 2: Bypass Next Node (node.next = node.next.next)",
+          note: "node.next = node.next.next (Connect index 2 directly to Node 50). The duplicate Node 40 is unlinked!",
+          vars: { "node.next": "50 (bypassed old next)", UnlinkedNode: "Old Node 40" },
+          nodes: nodesFinal,
+          pointers: { node: 2, "newNext": 3 },
+          swappedNodes: [2],
+        },
+        {
+          title: "Deletion Complete in O(1) Time! ✓",
+          note: "✓ Node 30 is effectively removed! Final list: 10 → 20 → 40 → 50 → null. Achieved in O(1) time without head pointer.",
+          vars: { Result: "10 → 20 → 40 → 50 → null", Time: "O(1)", Space: "O(1)" },
+          nodes: nodesFinal,
+          pointers: { head: 0 },
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "sll_palindrome") {
+      const nodes = [
+        { id: 0, val: 1 }, { id: 1, val: 2 }, { id: 2, val: 3 }, { id: 3, val: 2 }, { id: 4, val: 1 }
+      ];
+      return [
+        {
+          title: "Check if Singly Linked List is Palindrome",
+          note: "Input list: 1 → 2 → 3 → 2 → 1 → null. Goal: Determine if list reads the same forwards and backwards in O(N) time and O(1) space.",
+          vars: { List: "1 → 2 → 3 → 2 → 1", Head: "1", Length: 5 },
+          nodes,
+          pointers: { head: 0 },
+        },
+        {
+          title: "Step 1: Find Midpoint via Slow & Fast Pointers",
+          note: "slow moves 1 step; fast moves 2 steps. When fast reaches the end, slow is exactly at Node 3 (middle).",
+          vars: { slow: "3 (mid)", fast: "1 (tail)" },
+          nodes,
+          pointers: { head: 0, slow: 2, fast: 4 },
+          targetNodes: [2],
+        },
+        {
+          title: "Step 2: Reverse Second Half of List [2, 1] → [1, 2]",
+          note: "In-place pointer reversal of the second half starting at slow.next. Second half becomes 1 → 2 → null.",
+          vars: { FirstHalf: "1 → 2", ReversedSecondHalf: "1 → 2" },
+          nodes,
+          pointers: { p1: 0, p2: 4 },
+          swappedNodes: [3, 4],
+        },
+        {
+          title: "Step 3: Compare First Half & Reversed Second Half Node-by-Node",
+          note: "Compare p1(1) == p2(1) (Match ✓). Advance: p1(2) == p2(2) (Match ✓). All mirrored pairs are identical!",
+          vars: { "1 == 1": "true ✓", "2 == 2": "true ✓", Result: "All elements match" },
+          nodes,
+          pointers: { p1: 1, p2: 3 },
+          targetNodes: [1, 3],
+        },
+        {
+          title: "Result: return true (List is a Palindrome ✓)",
+          note: "✓ Singly linked list is a valid palindrome! Restoring second half gives original structure.",
+          vars: { IsPalindrome: "true ✓", TimeComplexity: "O(N)", SpaceComplexity: "O(1)" },
+          nodes,
+          pointers: { head: 0 },
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "sll_reverse" || mode === "reverse_list") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      return [
+        {
+          title: "Initial Singly Linked List: 10 → 20 → 30 → 40 → 50 → null",
+          note: "Algorithm: Maintain 3 pointers: prev = null, curr = head (10), next = null. In each step: save next, reverse curr.next to prev, advance prev and curr.",
           vars: { prev: "null", curr: "10 (head)", next: "null" },
-          nodes: listNodes,
+          nodes,
           pointers: { curr: 0 },
         },
         {
-          title: "Step 1: Reverse Node 10's pointer",
+          title: "Step 1: Reverse Node 10's Pointer",
           note: "next = curr.next (20); curr.next = prev (null); prev = curr (10); curr = next (20).",
           vars: { "10.next": "null", prev: "10", curr: "20" },
-          nodes: listNodes,
+          nodes,
           pointers: { prev: 0, curr: 1 },
           reversedArrows: [0],
         },
         {
-          title: "Step 2: Reverse Node 20's pointer",
+          title: "Step 2: Reverse Node 20's Pointer",
           note: "curr.next points back to 10. Advance prev to 20, curr to 30.",
           vars: { "20.next": "10", prev: "20", curr: "30" },
-          nodes: listNodes,
+          nodes,
           pointers: { prev: 1, curr: 2 },
           reversedArrows: [0, 1],
         },
         {
-          title: "Step 3: Reverse Node 30's pointer",
+          title: "Step 3: Reverse Node 30's Pointer",
           note: "curr.next points back to 20. Advance prev to 30, curr to 40.",
           vars: { "30.next": "20", prev: "30", curr: "40" },
-          nodes: listNodes,
+          nodes,
           pointers: { prev: 2, curr: 3 },
           reversedArrows: [0, 1, 2],
         },
         {
-          title: "Step 4: Reverse Node 40's pointer & Set New Head",
-          note: "curr.next points to 30. curr reaches null. Return prev (40) as the new head!",
-          vars: { NewHead: "40", Result: "40 → 30 → 20 → 10 → null" },
-          nodes: listNodes,
-          pointers: { head: 3 },
-          reversedArrows: [0, 1, 2],
-        },
-      ];
-    } else if (mode === "middle_node") {
-      return [
-        {
-          title: "Slow & Fast Pointers at Head",
-          note: "Initialize slow = head (10), fast = head (10).",
-          vars: { slow: "10", fast: "10" },
-          nodes: listNodes,
-          pointers: { "slow/fast": 0 },
+          title: "Step 4: Reverse Node 40's Pointer",
+          note: "curr.next points back to 30. Advance prev to 40, curr to 50.",
+          vars: { "40.next": "30", prev: "40", curr: "50" },
+          nodes,
+          pointers: { prev: 3, curr: 4 },
+          reversedArrows: [0, 1, 2, 3],
         },
         {
-          title: "Move: slow +1, fast +2",
-          note: "slow advances 1 step to 20; fast advances 2 steps to 30.",
-          vars: { slow: "20", fast: "30" },
-          nodes: listNodes,
-          pointers: { slow: 1, fast: 2 },
-        },
-        {
-          title: "Fast reaches boundary → slow is at Middle!",
-          note: "fast reaches end of list. slow is pointing at Node 20 / 30 (Middle) in O(N/2) time!",
-          vars: { MiddleNode: "20/30", Technique: "Tortoise & Hare" },
-          nodes: listNodes,
-          pointers: { slow: 1, fast: 3 },
-        },
-      ];
-    } else {
-      return [
-        {
-          title: "Floyd's Cycle Detection",
-          note: "Slow advances 1 step, Fast advances 2 steps. If a cycle exists, they must collide.",
-          vars: { Cycle: "Detected when slow == fast" },
-          nodes: listNodes,
-          pointers: { slow: 0, fast: 0 },
-        },
-        {
-          title: "Collision Detected!",
-          note: "✓ Fast catches up to slow inside the loop. Proves the list contains a cycle.",
-          vars: { Result: "Cycle Exists ✓" },
-          nodes: listNodes,
-          pointers: { "slow==fast": 2 },
+          title: "Step 5: Reverse Node 50's Pointer & Return prev as New Head",
+          note: "curr.next points to 40. curr advances to null. prev (50) is returned as the new head of the reversed list!",
+          vars: { NewHead: "50", Result: "50 → 40 → 30 → 20 → 10 → null", Time: "O(N)", Space: "O(1)" },
+          nodes,
+          pointers: { head: 4 },
+          reversedArrows: [0, 1, 2, 3],
+          completed: true,
         },
       ];
     }
+
+    if (mode === "sll_loop_detect" || mode === "detect_cycle") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      return [
+        {
+          title: "Floyd's Cycle Detection Algorithm (Tortoise & Hare)",
+          note: "Initialize slow = head, fast = head. slow moves 1 step per iteration, fast moves 2 steps. If a loop exists, fast will catch up and collide with slow.",
+          vars: { slow: "10 (Node 0)", fast: "10 (Node 0)", Cycle: "Present at Node 2" },
+          nodes,
+          pointers: { slow: 0, fast: 0 },
+        },
+        {
+          title: "Step 1: slow moves to Node 20, fast moves to Node 30",
+          note: "slow advances 1 step (10 → 20). fast advances 2 steps (10 → 20 → 30).",
+          vars: { slow: "20 (idx 1)", fast: "30 (idx 2)", "slow == fast": "false" },
+          nodes,
+          pointers: { slow: 1, fast: 2 },
+        },
+        {
+          title: "Step 2: slow moves to Node 30, fast loops around to Node 50",
+          note: "slow advances 1 step (20 → 30). fast advances 2 steps (30 → 40 → 50). Distance between them shrinks by 1 each step.",
+          vars: { slow: "30 (idx 2)", fast: "50 (idx 4)", "slow == fast": "false" },
+          nodes,
+          pointers: { slow: 2, fast: 4 },
+        },
+        {
+          title: "Step 3: Fast catches up! Collision at Loop Node",
+          note: "fast loops back into the cycle. slow and fast collide at the same memory address! (slow == fast is TRUE).",
+          vars: { "slow == fast": "TRUE ✓", MeetingNode: "30", Status: "Cycle Detected" },
+          nodes,
+          pointers: { "slow==fast": 2 },
+          targetNodes: [2],
+          activeIdx: 2,
+        },
+        {
+          title: "Cycle Confirmed! (return true)",
+          note: "✓ Floyd's Tortoise and Hare algorithm proves a cycle exists in O(N) time and O(1) memory without extra HashSet allocation.",
+          vars: { Result: "Cycle Exists ✓", TimeComplexity: "O(N)", SpaceComplexity: "O(1)" },
+          nodes,
+          pointers: { cycleAt: 2 },
+          completed: true,
+        },
+      ];
+    }
+
+    if (mode === "sll_middle" || mode === "middle_node") {
+      const nodes = [
+        { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+      ];
+      return [
+        {
+          title: "Find Middle Element of Singly Linked List",
+          note: "Using Tortoise & Hare: slow = head, fast = head. When fast reaches the tail, slow is guaranteed to be at the exact middle in a single pass.",
+          vars: { slow: "10", fast: "10", Middle: "TBD" },
+          nodes,
+          pointers: { slow: 0, fast: 0 },
+        },
+        {
+          title: "Move 1: slow +1 (20), fast +2 (30)",
+          note: "slow advances 1 step to Node 20; fast advances 2 steps to Node 30.",
+          vars: { slow: "20", fast: "30" },
+          nodes,
+          pointers: { slow: 1, fast: 2 },
+        },
+        {
+          title: "Move 2: slow +1 (30), fast +2 (50, End)",
+          note: "slow advances to Node 30; fast advances to Node 50 (tail, fast.next == null).",
+          vars: { slow: "30", fast: "50 (tail)", "fast.next": "null" },
+          nodes,
+          pointers: { slow: 2, fast: 4 },
+          targetNodes: [2],
+        },
+        {
+          title: "Middle Found! Node 30 (val = 30)",
+          note: "✓ fast reached end boundary. slow is pointing at Node 30 (Middle Node) in O(N/2) time!",
+          vars: { MiddleNode: 30, Result: "Node 30", Time: "O(N)" },
+          nodes,
+          pointers: { middle: 2 },
+          completed: true,
+        },
+      ];
+    }
+
+    // Default sll_traverse
+    const nodes = [
+      { id: 0, val: 10 }, { id: 1, val: 20 }, { id: 2, val: 30 }, { id: 3, val: 40 }, { id: 4, val: 50 }
+    ];
+    return [
+      {
+        title: "Singly Linked List Traversal",
+        note: "Start at head. Each node points forward to the next node, terminating at null.",
+        vars: { Head: "10", curr: "10", Length: 5 },
+        nodes,
+        pointers: { head: 0, curr: 0 },
+        activeIdx: 0,
+      },
+      {
+        title: "Traverse to Node 20",
+        note: "curr = curr.next (Node 20).",
+        vars: { curr: "20", "curr.next": "30" },
+        nodes,
+        pointers: { curr: 1 },
+        activeIdx: 1,
+      },
+      {
+        title: "Traverse to Node 30 & Node 40",
+        note: "Continuing linear inspection.",
+        vars: { curr: "30..40" },
+        nodes,
+        pointers: { curr: 3 },
+        activeIdx: 3,
+      },
+      {
+        title: "Traverse Reaches Node 50 (Last Node)",
+        note: "curr is at Node 50. curr.next is null, marking the end of the singly linked list.",
+        vars: { curr: "50", "curr.next": "null ∅" },
+        nodes,
+        pointers: { curr: 4, tail: 4 },
+        activeIdx: 4,
+      },
+      {
+        title: "Traversal Complete ✓",
+        note: "✓ Reached null terminator. All 5 nodes traversed in O(N) time.",
+        vars: { Status: "Completed ✓" },
+        nodes,
+        pointers: { head: 0 },
+        completed: true,
+      },
+    ];
   }
 
   // 5. Stack
@@ -3955,33 +4946,140 @@ function drawVisualizerCanvas() {
     return;
   }
 
-  // 3. Linked List
-  if (vizStructure.type === "linked_list") {
+  // 3a. Doubly Linked List Visualizer Canvas
+  if (vizStructure.type === "doubly_linked_list") {
     const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
     const pointers = (!isZero && step.pointers) ? step.pointers : {};
+    const swapped = (!isZero && step.swappedNodes) ? step.swappedNodes : [];
+    const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
+
     container.innerHTML = `
-      <div class="viz-list-container">
+      <div class="viz-list-container" style="justify-content: flex-start;">
+        <span class="viz-null-badge" title="Head.prev points to null">∅ ←</span>
         ${nodes.map((n, idx) => {
           let pText = "";
           Object.keys(pointers).forEach(k => {
             if (pointers[k] === idx) pText += (pText ? ", " : "") + k;
           });
-          const isReversed = !isZero && step.reversedArrows && step.reversedArrows.includes(idx);
-          const isNodeActive = !isZero && (step.activeIdx === idx || (pointers.curr === idx));
+          const isNodeActive = !isZero && (step.activeIdx === idx || pointers.curr === idx);
+          const isNodeSwapped = swapped.includes(idx);
+          const isNodeTarget = targets.includes(idx);
           return `
             <div class="viz-list-node-wrap">
               <div class="viz-bar-pointer-slot">
-                ${pText ? `<span class="viz-pointer-badge">${escapeHtml(pText)}</span>` : ""}
+                ${pText ? `<span class="viz-pointer-badge" style="background: rgba(139, 92, 246, 0.2); border-color: #8b5cf6; color: #a78bfa;">${escapeHtml(pText)}</span>` : ""}
               </div>
-              <div class="viz-list-node ${isNodeActive ? "active" : ""}">
-                <div class="viz-node-data-part">${n.val}</div>
-                <div class="viz-node-ptr-part"><span class="viz-ptr-dot"></span></div>
+              <div class="viz-dll-node ${isNodeActive ? "active" : ""} ${isNodeSwapped ? "swapped" : ""} ${isNodeTarget ? "target" : ""}">
+                <div class="viz-dll-ptr-prev" title="prev pointer (←)"><span class="viz-ptr-dot"></span></div>
+                <div class="viz-node-data-part">${escapeHtml(n.val)}</div>
+                <div class="viz-dll-ptr-next" title="next pointer (→)"><span class="viz-ptr-dot"></span></div>
               </div>
               <span class="viz-bar-index">Node ${idx}</span>
             </div>
-            ${idx < nodes.length - 1 ? `<span class="viz-list-arrow ${isReversed ? "reversed" : ""}">${isReversed ? "←" : "→"}</span>` : `<span class="viz-list-arrow">→ ∅</span>`}
+            ${idx < nodes.length - 1 ? `
+              <div class="viz-dll-arrow">
+                <span>⇄</span>
+                <span class="viz-dll-arrow-sub">prev/next</span>
+              </div>
+            ` : `
+              <span class="viz-null-badge" title="Tail.next points to null">→ ∅</span>
+            `}
           `;
         }).join("")}
+      </div>
+    `;
+    return;
+  }
+
+  // 3b. Circular Linked List Visualizer Canvas
+  if (vizStructure.type === "circular_linked_list") {
+    const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
+    const pointers = (!isZero && step.pointers) ? step.pointers : {};
+    const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
+    const swapped = (!isZero && step.swappedNodes) ? step.swappedNodes : [];
+    const isBroken = !isZero && Boolean(step.isBroken);
+
+    container.innerHTML = `
+      <div class="viz-cll-wrapper">
+        <div class="viz-list-container" style="justify-content: flex-start; width: 100%;">
+          ${nodes.map((n, idx) => {
+            let pText = "";
+            Object.keys(pointers).forEach(k => {
+              if (pointers[k] === idx) pText += (pText ? ", " : "") + k;
+            });
+            const isNodeActive = !isZero && (step.activeIdx === idx || pointers.curr === idx);
+            const isNodeTarget = targets.includes(idx);
+            const isNodeSwapped = swapped.includes(idx);
+            return `
+              <div class="viz-list-node-wrap">
+                <div class="viz-bar-pointer-slot">
+                  ${pText ? `<span class="viz-pointer-badge" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #10b981;">${escapeHtml(pText)}</span>` : ""}
+                </div>
+                <div class="viz-list-node ${isNodeActive ? "active" : ""} ${isNodeTarget ? "target" : ""} ${isNodeSwapped ? "swapped" : ""}">
+                  <div class="viz-node-data-part">${escapeHtml(n.val)}</div>
+                  <div class="viz-node-ptr-part"><span class="viz-ptr-dot" style="background: #10b981; box-shadow: 0 0 6px #10b981;"></span></div>
+                </div>
+                <span class="viz-bar-index">Node ${idx}</span>
+              </div>
+              ${idx < nodes.length - 1 ? `<span class="viz-list-arrow" style="color: #10b981;">→</span>` : (
+                isBroken ? `<span class="viz-null-badge" style="color: #ef4444; border-color: #ef4444;">→ ∅</span>` : `<span class="viz-list-arrow" style="color: #10b981; font-size: 22px;" title="Loops back to Head">⤹</span>`
+              )}
+            `;
+          }).join("")}
+        </div>
+        <div class="viz-cll-return-loop ${isBroken ? "broken" : ""}">
+          <span>${isBroken ? "✕ Linear Termination" : "↺ Circular Return Loop"}</span>
+          <span>${escapeHtml(step.loopText || "last.next points back to Head (Node 0)")}</span>
+          <span>${isBroken ? "Terminates at NULL ∅" : "next == head ✓"}</span>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // 3c. Singly Linked List Visualizer Canvas
+  if (vizStructure.type === "singly_linked_list" || vizStructure.type === "linked_list") {
+    const nodes = (isZero && vizSteps[0]) ? vizSteps[0].nodes : (step.nodes || []);
+    const pointers = (!isZero && step.pointers) ? step.pointers : {};
+    const reversedArrows = (!isZero && step.reversedArrows) ? step.reversedArrows : [];
+    const targets = (!isZero && step.targetNodes) ? step.targetNodes : [];
+    const swapped = (!isZero && step.swappedNodes) ? step.swappedNodes : [];
+
+    container.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: flex-start; width: 100%;">
+        <div class="viz-list-container" style="justify-content: flex-start; width: 100%;">
+          ${nodes.map((n, idx) => {
+            let pText = "";
+            Object.keys(pointers).forEach(k => {
+              if (pointers[k] === idx) pText += (pText ? ", " : "") + k;
+            });
+            const isReversed = reversedArrows.includes(idx);
+            const isNodeActive = !isZero && (step.activeIdx === idx || pointers.curr === idx);
+            const isNodeTarget = targets.includes(idx);
+            const isNodeSwapped = swapped.includes(idx);
+            return `
+              <div class="viz-list-node-wrap">
+                <div class="viz-bar-pointer-slot">
+                  ${pText ? `<span class="viz-pointer-badge">${escapeHtml(pText)}</span>` : ""}
+                </div>
+                <div class="viz-list-node ${isNodeActive ? "active" : ""} ${isNodeTarget ? "target" : ""} ${isNodeSwapped ? "swapped" : ""}">
+                  <div class="viz-node-data-part">${escapeHtml(n.val)}</div>
+                  <div class="viz-node-ptr-part"><span class="viz-ptr-dot"></span></div>
+                </div>
+                <span class="viz-bar-index">Node ${idx}</span>
+              </div>
+              ${idx < nodes.length - 1 ? `<span class="viz-list-arrow ${isReversed ? "reversed" : ""}">${isReversed ? "←" : "→"}</span>` : `<span class="viz-null-badge">→ ∅</span>`}
+            `;
+          }).join("")}
+        </div>
+        ${step.callStack && step.callStack.length > 0 ? `
+          <div style="margin: 6px 18px 0 18px; width: calc(100% - 36px); max-width: 600px; background: rgba(0,0,0,0.22); border: 1px dashed var(--border-color); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 11px;">
+            <div style="font-weight: 700; color: var(--accent); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+              <span>Recursion Call Stack (JVM Frame Unwinding):</span>
+            </div>
+            ${step.callStack.map(frame => `<div style="padding: 2.5px 6px; border-left: 2px solid var(--accent); margin-bottom: 2px; color: var(--text-main);">${escapeHtml(frame)}</div>`).join("")}
+          </div>
+        ` : ""}
       </div>
     `;
     return;
